@@ -1,5 +1,6 @@
 import Image from "next/image";
 import SocialLink from "@/components/SocialLink/index";
+import { SOCIAL_LINKS } from "@/constants";
 
 export default function Hero() {
   return (
@@ -19,14 +20,14 @@ export default function Hero() {
 
       <div className="flex flex-wrap gap-4 items-start mb-12">
         <SocialLink
-          href="https://www.instagram.com/doubletap.work/"
+          href={SOCIAL_LINKS.INSTAGRAM}
           label="instagram"
         />
         <SocialLink
-          href="https://www.linkedin.com/company/doubletap-work/"
+          href={SOCIAL_LINKS.LINKEDIN}
           label="linkedin"
         />
-        <SocialLink href="sms:" label="text" />
+        <SocialLink href={SOCIAL_LINKS.TEXT} label="text" />
       </div>
 
       <Image
