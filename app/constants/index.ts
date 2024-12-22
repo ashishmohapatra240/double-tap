@@ -5,6 +5,6 @@ export const SOCIAL_LINKS = {
 };
 
 export const COLORS = {
-    PRIMARY: "#DE5C35",
+    PRIMARY: "#ff4b00",
     BLACK: "#1A1A1A",
 };

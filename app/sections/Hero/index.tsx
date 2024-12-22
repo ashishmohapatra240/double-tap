@@ -7,7 +7,7 @@ export default function Hero() {
     <div className="flex-1 flex flex-col items-start justify-center p-8 max-w-2xl mx-auto">
       <h1 className="text-6xl md:text-7xl mb-8">
         <span className="font-power-grotesk">almost</span>
-        <span className="font-power-grotesk text-[#DE5C35]">there</span>
+        <span className="font-power-grotesk text-[#ff4b00]">there</span>
       </h1>
 
       <p className="font-space-mono text-left mb-12 text-[12px] md:text-base">
