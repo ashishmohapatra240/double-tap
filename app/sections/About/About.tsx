@@ -1,10 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
+import Button from "@/components/Button/Button";
 
 export default function About() {
   return (
-    <section className="min-h-screen bg-[#DADADA] py-16 md:py-24">
-      <div className="max-w-7xl mx-auto px-6 md:px-8 flex flex-col md:flex-row items-center gap-10 md:gap-16">
+    <section className="min-h-screen bg-[#DADADA]">
+      <div className="max-w-6xl mx-auto px-6 md:px-8 flex flex-col md:flex-row items-center gap-10 md:gap-16 mb-16 md:my-0">
         <div className="w-full md:w-1/2 flex justify-center md:justify-start">
           <div className="relative w-64 h-64 md:w-[420px] md:h-[420px] rounded-full overflow-hidden bg-[#f3e9d9]">
             <Image
@@ -18,8 +18,9 @@ export default function About() {
 
         {/* Right side - Content */}
         <div className="w-full md:w-1/2 flex flex-col items-start">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-normal font-power-grotesk mb-6">
-            double tap
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal font-power-grotesk mb-6">
+            <span className="font-bold">double tap</span> is where brands find
+            their voice.
           </h2>
 
           <p className="text-sm md:text-base font-mono mb-8 italic">
@@ -32,35 +33,12 @@ export default function About() {
           </p>
 
           <div className="flex flex-col w-full md:w-auto">
-            <Link
+            <Button
               href="/services"
-              className="flex items-center justify-between border-t border-black py-3 px-4 gap-4 hover:bg-[#F15A24] transition-colors duration-300"
-            >
-              <span className="font-mono uppercase text-sm">
-                Explore our services
-              </span>
-              <Image
-                src="/icons/upper-right-arrow-black.svg"
-                alt="Arrow right"
-                width={12}
-                height={12}
-              />
-            </Link>
-
-            <Link
-              href="/contact"
-              className="flex items-center justify-between border-t border-b border-black py-3 px-4 gap-4 hover:bg-[#F15A24] transition-colors duration-300"
-            >
-              <span className="font-mono uppercase text-sm tracking-wider">
-                Contact us
-              </span>
-              <Image
-                src="/icons/upper-right-arrow-black.svg"
-                alt="Arrow right"
-                width={12}
-                height={12}
-              />
-            </Link>
+              label="Explore our services"
+              className="border-b-0"
+            />
+            <Button href="/contact" label="Contact us" className="border-b" />
           </div>
         </div>
       </div>
