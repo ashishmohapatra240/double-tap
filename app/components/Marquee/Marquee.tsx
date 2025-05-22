@@ -1,4 +1,4 @@
-import Marquee from 'react-fast-marquee';
+import Marquee from "react-fast-marquee";
 
 export default function CustomMarquee() {
   return (
@@ -15,4 +15,4 @@ export default function CustomMarquee() {
       </Marquee>
     </div>
   );
-} 
+}
