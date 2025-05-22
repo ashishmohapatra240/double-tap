@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function Team() {
   const [activeTeamMember, setActiveTeamMember] = useState(0);
@@ -10,64 +11,97 @@ export default function Team() {
       id: 1,
       name: "Priyaranjan",
       image: "/images/team/priyaranjan.png",
-      description: `Design is the cornerstone of effective communication and problem-solving. It distills complexity into simplicity, making information more accessible and experiences more intuitive. Whether it's a logo, a website, or a piece of furniture, thoughtful design has the power to captivate, inspire, and connect with people on a deeper level, enriching their lives in countless ways.Design is the cornerstone of effective communication and problem-solving. It distills complexity into simplicity, making information more accessible and experiences more intuitive.`,
+      description: `A visionary co-founder and Creative Director, Priyaranjan brings a wealth of experience and a bold creative spirit to the company. With formative stints at renowned agencies like Saatchi & Saatchi and Xpand, he has mastered the art of crafting compelling visual narratives and strategic brand solutions. His passion for fresh ideas and fearless approach to creativity keep our engine running. A rare blend of artistic flair and strategic insight, Priyaranjan consistently delivers work that not only meets but surpasses industry benchmarks.`,
     },
     {
       id: 2,
       name: "Lata",
       image: "/images/team/lata.png",
-      description: `Design is the cornerstone of effective communication and problem-solving. It distills complexity into simplicity, making information more accessible and experiences more intuitive. Whether it's a logo, a website, or a piece of furniture, thoughtful design has the power to captivate, inspire, and connect with people on a deeper level, enriching their lives in countless ways.Design is the cornerstone of effective communication and problem-solving. It distills complexity into simplicity, making information more accessible and experiences more intuitive.`,
+      description: `With a law background from HNLU and experience in corporate law, Lata dedicated the past eight years to working with numerous brands & helping them realise their branding potential. Her core competencies lie in brand communications, strategic planning, marketing campaign development, perception management, and brand identity building and development. A highlight of her expertise is crafting compelling brand narratives and effective strategies that help build brand visibility. `,
     },
   ];
 
   const teamMembers = [
     {
       id: 1,
-      name: "Jyoti",
-      image: "/images/team/jyoti.png",
-      description: `Jyoti is a creative force to be reckoned with. With a keen eye for detail and a passion for innovative design, she brings a unique perspective to every project she touches.`,
+      name: "Geetesh",
+      designation: "Creative Lead",
+      image: "/images/team/sailesh.png",
+      description: `The pixel-perfectionist who bring ideas to life. Leads the creative team with calm, class, and colour codes. Responsible? Yes. Boring? Never.`,
     },
     {
       id: 2,
       name: "Sailesh",
+      designation: "Senior Project Manager",
       image: "/images/team/sailesh.png",
-      description: `Sailesh is a master of his craft, with a deep understanding of the latest technologies and trends. His dedication to delivering high-quality solutions is unmatched.`,
+      description: `The heartbeat of the room. Laughs loud, works louder. Juggles timelines, tasks, and team moods like a pro. If it's crazy, it's probably his idea (and we love it).`,
     },
     {
       id: 3,
       name: "Jyoti",
+      designation: "Project Management Lead",
       image: "/images/team/jyoti.png",
-      description: `Jyoti's infectious enthusiasm and collaborative spirit make her a joy to work with. Her ability to distill complex ideas into simple, actionable insights is a valuable asset to the team.`,
+      description: `Keeps the crew sailing smooth, no matter the storm. Balances people, projects, and pizza orders with ease. Leads with heart, delivers with hustle.`,
     },
     {
       id: 4,
-      name: "Sailesh",
-      image: "/images/team/sailesh.png",
-      description: `Sailesh's analytical mind and problem-solving skills are second to none. He approaches each challenge with a logical and methodical approach, ensuring that every solution is both effective and efficient.`,
+      name: "Divya",
+      designation: "Graphic Designer",
+      image: "/images/team/jyoti.png",
+      description: `Silent on Slack, loud on the canvas. He won't say much, but his designs say it all. First to stay back, last to miss the fun.`,
     },
     {
       id: 5,
-      name: "Jyoti",
+      name: "Smita",
+      designation: "Graphic Designer",
       image: "/images/team/jyoti.png",
-      description: `Jyoti's passion for learning and growth is inspiring. She is always seeking out new opportunities to expand her skillset and stay at the forefront of industry developments.`,
+      description: `The only lady in the creative den. Punctuality and talent? She's got both, no contest.`,
     },
     {
       id: 6,
-      name: "Sailesh",
+      name: "Abhinash",
+      designation: "Motion Editor",
       image: "/images/team/sailesh.png",
-      description: `Sailesh's calm and composed demeanor under pressure is a valuable asset to the team. His ability to remain focused and deliver under tight deadlines is a testament to his exceptional work ethic.`,
+      description: `Quick with the cuts, sharper with the trends. He's the motion pro and forever mom-approved.`,
+    },
+    {
+      id: 7,
+      name: "Justin",
+      designation: "3D artist and CGI Editor ",
+      image: "/images/team/sailesh.png",
+      description: `Breathes life into the unreal. Camera loves him almost as much as his renders do.`,
+    },
+    {
+      id: 8,
+      name: "Priyasmita",
+      designation: "Content Writer",
+      image: "/images/team/jyoti.png",
+      description: `Runs on coffee, powered by music, and writing that's as smooth as her playlist.`,
+    },
+    {
+      id: 9,
+      name: "Debjani",
+      designation: "Project Manager Associate",
+      image: "/images/team/jyoti.png",
+      description: `Fidget queen with a to-do list in hand. She's all heart, all hustle, all precision. Also doubles up as our default model.`,
     },
   ];
 
   return (
-    <section className="text-white">
-      <div className="bg-white py-16 md:py-24">
+    <section>
+      <div className="bg-[#DADADA]">
+        <div className="flex flex-col items-center justify-center max-w-6xl mx-auto px-6 md:px-8 py-16 md:pt-20">
+          <h2 className="text-4xl md:text-5xl font-power-grotesk">
+            <span className="font-bold">We</span> are a passionate mix of
+            storytellers.
+          </h2>
+        </div>
         {/* Upper section - Two featured team members */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 max-w-7xl mx-auto px-6 md:px-8">
           {featuredMembers.map((member) => (
             <div key={member.id} className="flex flex-col md:flex-row gap-6">
               {/* Image on left side */}
-              <div className="w-full md:w-1/2 aspect-square bg-blue-700 relative">
+              <div className="w-full md:w-1/2 aspect-square relative">
                 <Image
                   src={member.image}
                   alt={member.name}
@@ -78,7 +112,7 @@ export default function Team() {
 
               {/* Content on right side */}
               <div className="w-full md:w-1/2">
-                <h3 className="text-3xl md:text-5xl font-power-grotesk mb-4 text-black">
+                <h3 className="text-xl md:text-2xl font-power-grotesk mb-4 text-black">
                   {member.name}
                 </h3>
                 <p className="font-mono text-xs md:text-sm text-black">
@@ -90,17 +124,21 @@ export default function Team() {
         </div>
 
         <div className="relative bg-black">
-          <div className="flex flex-col md:flex-row py-20 px-6 md:px-40 items-end">
-            <div className="flex flex-row gap-1 md:gap-2 w-full md:w-3/4 h-[300px] md:h-[400px] mb-8 md:mb-0 overflow-x-auto">
+          <div className="flex flex-col md:flex-row py-40 px-6 md:px-40 items-end">
+            <div className="flex flex-row gap-1 md:gap-2 w-full md:w-3/4 h-[200px] md:h-[300px] mb-8 md:mb-0 overflow-hidden">
               {teamMembers.map((member, index) => (
-                <div
+                <motion.div
                   key={member.id}
-                  className={`cursor-pointer transition-all duration-500 ease-in-out relative h-full ${
+                  className={`cursor-pointer relative h-full ${
                     activeTeamMember === index
                       ? "flex-grow"
-                      : "flex-shrink-0 w-8 sm:w-12 md:w-28"
+                      : "flex-shrink-0 w-8 sm:w-12 md:w-16"
                   }`}
                   onClick={() => setActiveTeamMember(index)}
+                  whileHover={
+                    activeTeamMember !== index ? { width: "5rem" } : {}
+                  }
+                  transition={{ duration: 0.3, ease: "easeOut" }}
                 >
                   <Image
                     src={member.image}
@@ -108,7 +146,7 @@ export default function Team() {
                     fill
                     className="object-cover"
                   />
-                </div>
+                </motion.div>
               ))}
             </div>
 
@@ -121,9 +159,12 @@ export default function Team() {
                     activeTeamMember === index ? "block" : "hidden"
                   }`}
                 >
-                  <h3 className="text-3xl md:text-5xl font-power-grotesk mb-4">
+                  <h3 className="text-xl md:text-2xl font-power-grotesk mb-2 text-white">
                     {member.name}
                   </h3>
+                  <p className="font-mono text-xs md:text-lg text-gray-300 mb-2">
+                    {member.designation}
+                  </p>
                   <p className="font-mono text-xs md:text-sm text-gray-300 max-w-md">
                     {member.description}
                   </p>
