@@ -1,6 +1,5 @@
 import localFont from "next/font/local";
 import "./globals.css";
-
 const spaceMono = localFont({
   src: "../public/font/SpaceMono-Regular.ttf",
   variable: "--font-space-mono",
@@ -26,7 +25,18 @@ export default function RootLayout({
       lang="en"
       className={`${spaceMono.variable} ${powerGrotesk.variable}`}
     >
-      <body>{children}</body>
+      <head>
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+            body {
+              background-color: black;
+            }
+          `,
+          }}
+        />
+      </head>
+      <body> {children}</body>
     </html>
   );
 }
