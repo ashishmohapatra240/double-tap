@@ -10,15 +10,22 @@ export default function Works() {
   }>({});
 
   useEffect(() => {
+    let ticking = false;
     const mouseMove = (e: MouseEvent) => {
-      setHoveredImages((prev) => {
-        const newState = { ...prev };
-        // Update position for all active images
-        Object.keys(newState).forEach((key) => {
-          newState[Number(key)] = { x: e.clientX, y: e.clientY };
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setHoveredImages((prev) => {
+            const newState = { ...prev };
+            // Update position for all active images
+            Object.keys(newState).forEach((key) => {
+              newState[Number(key)] = { x: e.clientX, y: e.clientY };
+            });
+            return newState;
+          });
+          ticking = false;
         });
-        return newState;
-      });
+        ticking = true;
+      }
     };
 
     window.addEventListener("mousemove", mouseMove);
@@ -77,9 +84,9 @@ export default function Works() {
             <Image
               src={works[Number(index)].image}
               alt={works[Number(index)].title}
-              className="w-48 h-48 object-cover"
-              width={100}
-              height={100}
+              className="object-cover"
+              width={192} /* w-48 equals 12rem or 192px */
+              height={192} /* h-48 equals 12rem or 192px */
             />
           </motion.div>
         ))}
@@ -111,8 +118,13 @@ export default function Works() {
             <div
               key={index}
               className="group relative overflow-hidden"
+              tabIndex={0}
               onMouseEnter={(e) => handleMouseEnter(index, e)}
               onMouseLeave={() => handleMouseLeave(index)}
+              onFocus={(e) =>
+                handleMouseEnter(index, e as unknown as React.MouseEvent)
+              }
+              onBlur={() => handleMouseLeave(index)}
             >
               <div className="border-t border-b border-gray-600 py-6 relative z-10">
                 <div className="px-2 md:px-6 flex flex-col md:flex-row gap-2 md:gap-6 items-start md:items-end">

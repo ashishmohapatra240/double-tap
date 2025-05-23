@@ -21,7 +21,7 @@ export default function Button({ href, label, className = "" }: ButtonProps) {
         height={12}
         className="relative z-10"
       /> */}
-      <div className="absolute inset-0 bg-[#F15A24] transform origin-center scale-y-0 transition-transform duration-[400ms] ease-in-out group-hover:scale-y-100" />
+      <div className="absolute inset-0 bg-[#F15A24] pointer-events-none transform origin-center scale-y-0 transition-transform duration-[400ms] ease-in-out group-hover:scale-y-100" />
     </Link>
   );
 }
