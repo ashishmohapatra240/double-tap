@@ -1,6 +1,9 @@
 "use client";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+
+gsap.registerPlugin(ScrollToPlugin);
 
 interface HeroProps {
   startAnimation: boolean;
@@ -11,35 +14,75 @@ export default function Hero({ startAnimation }: HeroProps) {
 
   useEffect(() => {
     if (startAnimation) {
-      gsap.to(textRefs.current, {
-        y: 0,
-        opacity: 1,
-        duration: 1.2,
-        stagger: 0.2,
-        ease: "power3.inOut",
-        delay: 0.2,
-      });
+      gsap.fromTo(
+        textRefs.current,
+        {
+          y: 100,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.4,
+          stagger: 0.15,
+          ease: "power4.inOut",
+          delay: 0.2,
+        }
+      );
     }
+
+    textRefs.current.forEach((ref) => {
+      if (ref) {
+        ref.addEventListener("mouseenter", () => {
+          gsap.to(ref, {
+            color: "#F15A24",
+            scale: 1.1,
+            rotation: 3,
+            fontWeight: 700,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+
+        ref.addEventListener("mouseleave", () => {
+          gsap.to(ref, {
+            color: "#000000",
+            scale: 1,
+            rotation: 0,
+            fontWeight: 400,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+      }
+    });
   }, [startAnimation]);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      gsap.to(window, {
+        duration: 1.2,
+        scrollTo: {
+          y: element,
+          offsetY: 0,
+        },
+        ease: "power4.inOut",
+      });
     }
   };
 
   return (
     <section className="min-h-screen h-dvh bg-[#DADADA] flex flex-col">
       <div className="flex-1 flex items-center justify-center max-w-6xl mx-auto">
-        <h1 className="text-2xl md:text-3xl lg:text-6xl font-normal text-center mx-auto font-power-grotesk">
+        <h1 className="text-3xl md:text-5xl lg:text-6xl font-normal text-center mx-auto font-power-grotesk">
           <span
             ref={(el) => {
               if (el) {
                 textRefs.current[0] = el;
               }
             }}
-            className="cursor-pointer hover:font-bold hover:text-[#F15A24] transition-all duration-300 inline-block translate-y-[100px] opacity-0"
+            className="cursor-pointer inline-block translate-y-[100px] opacity-0"
             onClick={() => scrollToSection("address")}
           >
             at
@@ -50,7 +93,7 @@ export default function Hero({ startAnimation }: HeroProps) {
                 textRefs.current[1] = el;
               }
             }}
-            className="cursor-pointer hover:font-bold hover:text-[#F15A24] transition-all duration-300 inline-block translate-y-[100px] opacity-0"
+            className="cursor-pointer inline-block translate-y-[100px] opacity-0"
             onClick={() => scrollToSection("about")}
           >
             double tap
@@ -61,7 +104,7 @@ export default function Hero({ startAnimation }: HeroProps) {
                 textRefs.current[2] = el;
               }
             }}
-            className="cursor-pointer hover:font-bold hover:text-[#F15A24] transition-all duration-300 inline-block translate-y-[100px] opacity-0"
+            className="cursor-pointer inline-block translate-y-[100px] opacity-0"
             onClick={() => scrollToSection("team")}
           >
             we
@@ -72,8 +115,8 @@ export default function Hero({ startAnimation }: HeroProps) {
                 textRefs.current[3] = el;
               }
             }}
-            className="cursor-pointer hover:font-bold hover:text-[#F15A24] transition-all duration-300 inline-block translate-y-[100px] opacity-0"
-            onClick={() => scrollToSection("what-we-do")}
+            className="cursor-pointer inline-block translate-y-[100px] opacity-0"
+            onClick={() => scrollToSection("services")}
           >
             let
           </span>{" "}
@@ -83,7 +126,7 @@ export default function Hero({ startAnimation }: HeroProps) {
                 textRefs.current[4] = el;
               }
             }}
-            className="cursor-pointer hover:font-bold hover:text-[#F15A24] transition-all duration-300 inline-block translate-y-[100px] opacity-0"
+            className="cursor-pointer inline-block translate-y-[100px] opacity-0"
             onClick={() => scrollToSection("careers")}
           >
             our
@@ -94,7 +137,7 @@ export default function Hero({ startAnimation }: HeroProps) {
                 textRefs.current[5] = el;
               }
             }}
-            className="cursor-pointer hover:font-bold hover:text-[#F15A24] transition-all duration-300 inline-block translate-y-[100px] opacity-0"
+            className="cursor-pointer inline-block translate-y-[100px] opacity-0"
             onClick={() => scrollToSection("works")}
           >
             work
@@ -105,7 +148,7 @@ export default function Hero({ startAnimation }: HeroProps) {
                 textRefs.current[6] = el;
               }
             }}
-            className="cursor-pointer hover:font-bold hover:text-[#F15A24] transition-all duration-300 inline-block translate-y-[100px] opacity-0"
+            className="cursor-pointer inline-block translate-y-[100px] opacity-0"
             onClick={() => scrollToSection("contact")}
           >
             speak
