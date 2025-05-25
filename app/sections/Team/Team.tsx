@@ -1,10 +1,13 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import gsap from "gsap";
 
 export default function Team() {
   const [activeTeamMember, setActiveTeamMember] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const memberRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const featuredMembers = [
     {
@@ -87,11 +90,65 @@ export default function Team() {
     },
   ];
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    // Only animate on desktop
+    if (!isMobile) {
+      memberRefs.current.forEach((ref, index) => {
+        if (ref) {
+          gsap.to(ref, {
+            width: activeTeamMember === index ? "30%" : "10%",
+            duration: 0.5,
+            ease: "power2.inOut",
+          });
+        }
+      });
+    }
+
+    // Animate content
+    if (contentRef.current) {
+      gsap.fromTo(
+        contentRef.current,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }
+      );
+    }
+  }, [activeTeamMember, isMobile]);
+
+  const handleMemberHover = (index: number) => {
+    if (!isMobile && index !== activeTeamMember) {
+      gsap.to(memberRefs.current[index], {
+        width: "15%",
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    }
+  };
+
+  const handleMemberLeave = (index: number) => {
+    if (!isMobile && index !== activeTeamMember) {
+      gsap.to(memberRefs.current[index], {
+        width: "10%",
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    }
+  };
+
   return (
     <section>
       <div className="bg-[#DADADA]">
         <div className="flex flex-col items-center justify-center max-w-6xl mx-auto px-6 md:px-8 py-16 md:pt-20">
-          <h2 className="text-4xl md:text-5xl font-power-grotesk">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-power-grotesk">
             <span className="font-bold">We</span> are a passionate mix of
             storytellers.
           </h2>
@@ -124,21 +181,14 @@ export default function Team() {
         </div>
 
         <div className="relative bg-black">
-          <div className="flex flex-col md:flex-row py-40 px-6 md:px-40 items-end">
-            <div className="flex flex-row gap-1 md:gap-2 w-full md:w-3/4 h-[200px] md:h-[300px] mb-8 md:mb-0 overflow-hidden">
+          <div className="flex flex-col py-20 md:py-40 px-6 md:px-40 md:flex-row md:items-end">
+            {/* Mobile: 3x3 Grid Layout */}
+            <div className="grid grid-cols-3 gap-2 w-full mb-8 md:hidden">
               {teamMembers.map((member, index) => (
-                <motion.div
+                <div
                   key={member.id}
-                  className={`cursor-pointer relative h-full ${
-                    activeTeamMember === index
-                      ? "flex-grow"
-                      : "flex-shrink-0 w-8 sm:w-12 md:w-16"
-                  }`}
+                  className="cursor-pointer relative h-32 sm:h-40"
                   onClick={() => setActiveTeamMember(index)}
-                  whileHover={
-                    activeTeamMember !== index ? { width: "5rem" } : {}
-                  }
-                  transition={{ duration: 0.3, ease: "easeOut" }}
                 >
                   <Image
                     src={member.image}
@@ -146,12 +196,43 @@ export default function Team() {
                     fill
                     className="object-cover"
                   />
-                </motion.div>
+                  {/* Active member indicator */}
+                  {activeTeamMember === index && (
+                    <div className="absolute inset-0 border-2 border-white"></div>
+                  )}
+                </div>
               ))}
             </div>
 
-            {/* Active team member details - positioned at bottom right */}
-            <div className="self-end md:w-1/3 md:pl-8 lg:pl-16">
+            {/* Desktop: Horizontal Layout */}
+            <div className="hidden md:flex md:flex-row gap-2 w-full md:w-3/4 h-[300px] mb-8 md:mb-0 overflow-hidden">
+              {teamMembers.map((member, index) => (
+                <div
+                  key={member.id}
+                  ref={(el: HTMLDivElement | null) => {
+                    memberRefs.current[index] = el;
+                  }}
+                  className="cursor-pointer relative h-full transition-all duration-300"
+                  onClick={() => setActiveTeamMember(index)}
+                  onMouseEnter={() => handleMemberHover(index)}
+                  onMouseLeave={() => handleMemberLeave(index)}
+                >
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
+                    <p className="text-white text-xs md:text-sm font-power-grotesk">
+                      {member.name}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div ref={contentRef} className="w-full md:w-1/3 md:pl-8 lg:pl-16">
               {teamMembers.map((member, index) => (
                 <div
                   key={member.id}
@@ -159,12 +240,15 @@ export default function Team() {
                     activeTeamMember === index ? "block" : "hidden"
                   }`}
                 >
-                  <h3 className="text-xl md:text-2xl font-power-grotesk mb-2 text-white">
-                    {member.name}
-                  </h3>
-                  <p className="font-mono text-xs md:text-lg text-gray-300 mb-2">
-                    {member.designation}
-                  </p>
+                  <div className="flex flex-row gap-2 items-end">
+                    <h3 className="text-xl md:text-2xl font-power-grotesk mb-2 text-white">
+                      {member.name}
+                    </h3>
+                    <p className="font-mono text-xs md:text-md text-gray-300 mb-2">
+                      ({member.designation})
+                    </p>
+                  </div>
+
                   <p className="font-mono text-xs md:text-sm text-gray-300 max-w-md">
                     {member.description}
                   </p>
