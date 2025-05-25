@@ -1,11 +1,15 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { AnimatedLink } from "../AnimatedLink";
+import Image from "next/image";
+import gsap from "gsap";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const navItemsRef = useRef<HTMLDivElement>(null);
+  const socialLinksRef = useRef<HTMLDivElement>(null);
 
   const menuItems = [
     { label: "home", href: "/" },
@@ -17,16 +21,69 @@ export default function Navbar() {
     { label: "contact", href: "#contact" },
   ];
 
+  useEffect(() => {
+    const menu = menuRef.current;
+    const navItems = navItemsRef.current;
+    const socialLinks = socialLinksRef.current;
+
+    if (!menu || !navItems || !socialLinks) return;
+
+    if (isMenuOpen) {
+      gsap.to(menu, {
+        y: 0,
+        duration: 1,
+        ease: "power4.inOut",
+      });
+
+      gsap.fromTo(
+        navItems.children,
+        {
+          y: 50,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: "power4.out",
+          delay: 0.3,
+        }
+      );
+
+      gsap.fromTo(
+        socialLinks.children,
+        {
+          y: 20,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: "power4.out",
+          delay: 0.6,
+        }
+      );
+    } else {
+      gsap.to(menu, {
+        y: "-100%",
+        duration: 0.8,
+        ease: "power4.inOut",
+      });
+    }
+  }, [isMenuOpen]);
+
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center max-w-6xl mx-auto py-8 px-6 md:px-0">
+      <div className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center mx-auto py-8 px-6 lg:px-20">
         <Link href="/">
           <Image
             src="/images/logo.png"
-            alt="Double Tap Logo"
+            alt="Logo"
             width={200}
             height={100}
-            quality={100}
             className="w-auto h-[24px] md:h-[30px]"
           />
         </Link>
@@ -72,12 +129,11 @@ export default function Navbar() {
       </div>
 
       <div
-        className={`fixed inset-0 bg-[#FF5C28] z-40 transition-transform duration-300 ${
-          isMenuOpen ? "translate-y-0" : "-translate-y-full"
-        }`}
+        ref={menuRef}
+        className="fixed inset-0 bg-[#FF5C28] z-40 translate-y-[-100%]"
       >
         <div className="flex flex-col items-center justify-center h-full">
-          <nav className="text-center">
+          <nav className="text-center" ref={navItemsRef}>
             {menuItems.map((item) => (
               <Link
                 key={item.label}
@@ -89,9 +145,9 @@ export default function Navbar() {
               </Link>
             ))}
           </nav>
-          <div className="flex gap-8 absolute bottom-8">
-            <AnimatedLink href="https://instagram.com">Instagram</AnimatedLink>
-            <AnimatedLink href="https://linkedin.com">LinkedIn</AnimatedLink>
+          <div className="flex gap-8 absolute bottom-8" ref={socialLinksRef}>
+            <AnimatedLink href="https://instagram.com" className="text-black/50 hover:text-black">Instagram</AnimatedLink>
+            <AnimatedLink href="https://linkedin.com" className="text-black/50 hover:text-black">LinkedIn</AnimatedLink>
           </div>
         </div>
       </div>
