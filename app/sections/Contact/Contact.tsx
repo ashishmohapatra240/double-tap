@@ -3,7 +3,7 @@ import { AnimatedLink } from "@/components/AnimatedLink";
 import Button from "@/components/Button/Button";
 export default function Contact() {
   return (
-    <section className="relative min-h-screen bg-black text-white px-6 md:px-8 py-20 md:py-32">
+    <section className="relative min-h-screen bg-black text-white flex items-center">
       {/* Background decoration */}
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute right-0 top-0 w-1/2 h-1/2 bg-gradient-to-bl from-purple-500/30" />

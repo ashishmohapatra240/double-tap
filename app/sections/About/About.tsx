@@ -3,8 +3,8 @@ import Button from "@/components/Button/Button";
 
 export default function About() {
   return (
-    <section className="min-h-screen bg-[#DADADA]">
-      <div className="max-w-6xl mx-auto px-6 md:px-8 flex flex-col md:flex-row items-center gap-10 md:gap-16 mb-16 md:my-0">
+    <section className="min-h-screen bg-[#DADADA] flex items-center">
+      <div className="max-w-6xl mx-auto px-6 md:px-8 flex flex-col md:flex-row items-center gap-10 md:gap-16">
         <div className="w-full md:w-1/2 flex justify-center md:justify-start">
           <div className="relative w-64 h-64 md:w-[420px] md:h-[420px] rounded-full overflow-hidden bg-[#f3e9d9]">
             <Image
@@ -18,7 +18,7 @@ export default function About() {
 
         {/* Right side - Content */}
         <div className="w-full md:w-1/2 flex flex-col items-start">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal font-power-grotesk mb-6">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-normal font-power-grotesk mb-6">
             <span className="font-bold">double tap</span> is where brands find
             their voice.
           </h2>

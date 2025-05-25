@@ -3,7 +3,7 @@ import Button from "@/components/Button/Button";
 
 export default function Address() {
   return (
-    <section className="relative min-h-[70vh] bg-[#DADADA] px-6 md:px-8 py-20 md:py-32">
+    <section className="relative min-h-screen bg-[#DADADA] flex items-center">
       <div className="max-w-7xl mx-auto relative">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-20 md:gap-40">
           {/* Left side - Image */}

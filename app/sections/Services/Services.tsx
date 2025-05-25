@@ -85,7 +85,9 @@ export default function Services() {
       <div className="flex flex-col">
         <div className="flex gap-4 items-center">
           <AnimatedIcon src={service.icon} />
-          <h3 className="text-xl font-medium font-power-grotesk">{service.title}</h3>
+          <h3 className="text-xl font-medium font-power-grotesk">
+            {service.title}
+          </h3>
         </div>
 
         <p className="text-neutral-400 font-mono">{service.description}</p>
@@ -94,13 +96,13 @@ export default function Services() {
   };
 
   return (
-    <section className="min-h-screen bg-black text-white py-8 md:py-16 md:pt-20 md:pb-60">
+    <section className="min-h-screen bg-black text-white flex items-center py-40">
       <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-20">
         {/* Headline */}
-        <div className="mb-12 md:mb-24 text-center md:text-left">
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-normal font-power-grotesk flex flex-row md:justify-center md:pt-20 md:pb-20">
-            <span className="text-[#F15A24] font-bold mb-1 md:mb-0">let</span>
-            <span className="ml-2">us shape your brand&apos;s journey.</span>
+        <div className="mb-12 md:mb-24 text-center">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-normal font-power-grotesk pt-0 md:pt-20 pb-0 md:pb-20">
+            <span className="text-[#F15A24] font-bold">let </span>
+            us shape your brand&apos;s journey.
           </h2>
         </div>
 
