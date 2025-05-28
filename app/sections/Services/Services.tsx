@@ -99,11 +99,19 @@ export default function Services() {
     <section className="min-h-screen bg-black text-white flex items-center py-40">
       <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-20">
         {/* Headline */}
-        <div className="mb-12 md:mb-24 text-center">
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-normal font-power-grotesk pt-0 md:pt-20 pb-0 md:pb-20">
-            <span className="text-[#F15A24] font-bold">let </span>
-            us shape your brand&apos;s journey.
+        <div className="mb-12 md:mb-24 text-center flex flex-col gap-4">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-normal font-power-grotesk">
+            <span className="text-3xl md:text-5xl lg:text-6xl font-bold text-[#F15A24]">
+              let
+            </span>{" "}
+            <span className="text-xl md:text-2xl lg:text-3xl text-white">
+              us shape your brand&apos;s journey.
+            </span>
           </h2>
+          <p className="text-white/60 font-mono max-w-xl mx-auto mt-4 text-center">
+            From strategy and storytelling to design and digital, we offer
+            complete creative services that help brands grow and stand out.
+          </p>
         </div>
 
         {/* Services grid */}

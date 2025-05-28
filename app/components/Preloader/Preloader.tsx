@@ -37,7 +37,7 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
         gsap.set(
           [containerRef.current, rectangleRef.current, textRef.current],
           {
-            backgroundColor: "#DADADA",
+            backgroundColor: "#000000",
           }
         );
         onComplete();
@@ -51,14 +51,14 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
       left: 0,
       right: 0,
       bottom: 0,
-      backgroundColor: "black",
+      backgroundColor: "#F15A24",
       zIndex: 50,
     });
 
     gsap.set(rectangleRef.current, {
       width: 0,
       height: "2px",
-      backgroundColor: "#DADADA",
+      backgroundColor: "#000000",
       position: "fixed",
       left: 0,
       bottom: "10vh",
@@ -72,7 +72,7 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
       left: "50%",
       top: "50%",
       transform: "translate(-50%, -50%)",
-      color: "#DADADA",
+      color: "#000000",
       fontSize: "2rem",
       fontFamily: "var(--font-power-grotesk)",
       zIndex: 51,

@@ -17,7 +17,7 @@ export const AnimatedLink: React.FC<AnimatedLinkProps> = ({
       href={href}
       className={`group relative overflow-hidden font-mono text-sm ${className}`}
     >
-      <span className="inline-block transition duration-500 ease-out group-hover:-translate-y-[120%] text-gray-500">
+      <span className="inline-block transition duration-500 ease-out group-hover:-translate-y-[120%] text-white/60">
         {children}
       </span>
       <span className="absolute left-0 inline-block translate-y-[120%] transition duration-500 ease-out group-hover:translate-y-0">

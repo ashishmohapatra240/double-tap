@@ -3,7 +3,7 @@ import Button from "@/components/Button/Button";
 
 export default function About() {
   return (
-    <section className="min-h-screen bg-[#DADADA] flex items-center">
+    <section className="min-h-screen bg-black flex items-center">
       <div className="max-w-6xl mx-auto px-6 md:px-8 flex flex-col md:flex-row items-center gap-10 md:gap-16">
         <div className="w-full md:w-1/2 flex justify-center md:justify-start">
           <div className="relative w-64 h-64 md:w-[420px] md:h-[420px] rounded-full overflow-hidden bg-[#f3e9d9]">
@@ -18,12 +18,16 @@ export default function About() {
 
         {/* Right side - Content */}
         <div className="w-full md:w-1/2 flex flex-col items-start">
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-normal font-power-grotesk mb-6">
-            <span className="font-bold">double tap</span> is where brands find
-            their voice.
-          </h2>
+          <div className="font-power-grotesk mb-6 text-white leading-tight flex flex-col gap-2">
+            <span className="text-3xl md:text-5xl lg:text-6xl font-bold">
+              double tap
+            </span>{" "}
+            <span className="text-xl md:text-2xl lg:text-3xl">
+              is where brands find their voice.
+            </span>
+          </div>
 
-          <p className="text-sm md:text-base font-mono mb-8 italic">
+          <p className="text-sm md:text-base font-mono mb-8 italic text-white/60">
             Design is the cornerstone of effective communication and
             problem-solving. It distills complexity into simplicity, making
             information more accessible and experiences more intuitive. Whether
@@ -32,7 +36,7 @@ export default function About() {
             on a deeper level, enriching their lives in countless ways.
           </p>
 
-          <div className="flex flex-col w-full md:w-auto">
+          <div className="flex flex-col w-full">
             <Button
               href="/services"
               label="Explore our services"

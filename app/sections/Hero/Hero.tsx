@@ -46,7 +46,7 @@ export default function Hero({ startAnimation }: HeroProps) {
 
         ref.addEventListener("mouseleave", () => {
           gsap.to(ref, {
-            color: "#000000",
+            color: "#FFFFFF",
             scale: 1,
             rotation: 0,
             fontWeight: 400,
@@ -73,9 +73,9 @@ export default function Hero({ startAnimation }: HeroProps) {
   };
 
   return (
-    <section className="min-h-screen h-dvh bg-[#DADADA] flex flex-col">
+    <section className="min-h-screen h-dvh bg-black flex flex-col">
       <div className="flex-1 flex items-center justify-center max-w-6xl mx-auto">
-        <h1 className="text-3xl md:text-5xl lg:text-6xl font-normal text-center mx-auto font-power-grotesk">
+        <h1 className="text-3xl md:text-5xl lg:text-6xl font-normal text-center mx-auto font-power-grotesk text-white">
           <span
             ref={(el) => {
               if (el) {

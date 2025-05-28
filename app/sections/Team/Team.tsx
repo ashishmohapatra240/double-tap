@@ -146,12 +146,20 @@ export default function Team() {
 
   return (
     <section>
-      <div className="bg-[#DADADA]">
+      <div className="bg-black">
         <div className="flex flex-col items-center justify-center max-w-6xl mx-auto px-6 md:px-8 py-16 md:pt-20">
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-power-grotesk">
-            <span className="font-bold">We</span> are a passionate mix of
-            storytellers.
+          <h2 className="font-power-grotesk text-white">
+            <span className="text-3xl md:text-5xl lg:text-6xl font-bold">
+              We
+            </span>{" "}
+            <span className="text-xl md:text-2xl lg:text-3xl">
+              are a passionate mix of storytellers.
+            </span>{" "}
           </h2>
+          <p className="text-white/60 font-mono max-w-xl mx-auto mt-4 text-center">
+            A dynamic collective of designers, writers, strategists and doers.
+            United by passion, driven by purpose, and fueled by good coffee.
+          </p>
         </div>
         {/* Upper section - Two featured team members */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 max-w-7xl mx-auto px-6 md:px-8">
@@ -169,10 +177,10 @@ export default function Team() {
 
               {/* Content on right side */}
               <div className="w-full md:w-1/2">
-                <h3 className="text-xl md:text-2xl font-power-grotesk mb-4 text-black">
+                <h3 className="text-xl md:text-2xl font-power-grotesk mb-4 text-white">
                   {member.name}
                 </h3>
-                <p className="font-mono text-xs md:text-sm text-black">
+                <p className="font-mono text-xs md:text-sm text-white/60">
                   {member.description}
                 </p>
               </div>
@@ -244,12 +252,12 @@ export default function Team() {
                     <h3 className="text-xl md:text-2xl font-power-grotesk mb-2 text-white">
                       {member.name}
                     </h3>
-                    <p className="font-mono text-xs md:text-md text-gray-300 mb-2">
+                    <p className="font-mono text-xs md:text-md text-white/60 mb-2">
                       ({member.designation})
                     </p>
                   </div>
 
-                  <p className="font-mono text-xs md:text-sm text-gray-300 max-w-md">
+                  <p className="font-mono text-xs md:text-sm text-white/60 max-w-md">
                     {member.description}
                   </p>
                 </div>
