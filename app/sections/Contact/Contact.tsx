@@ -24,10 +24,20 @@ export default function Contact() {
                   priority
                 />
               </div>
-              <span className="text-white font-bold relative">Speak</span>
-              &nbsp;to us and let&apos;s build something extraordinary together.
+              <div className="relative">
+                <span className="text-3xl md:text-5xl lg:text-6xl font-bold relative">
+                  Speak
+                </span>
+                <span className="text-xl md:text-2xl lg:text-3xl relative">
+                  &nbsp;to us
+                </span>
+              </div>
             </h2>
           </div>
+          <p className="text-sm md:text-base font-mono mb-8 italic text-white/60">
+            Whether you’ve got a brief or just a hunch, we’d love to hear it.
+            Let’s do something great together.
+          </p>
         </div>
 
         {/* Contact Information */}

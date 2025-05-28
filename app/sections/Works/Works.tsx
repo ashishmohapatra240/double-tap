@@ -106,11 +106,20 @@ export default function Works() {
       `}</style>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-12 md:mb-24 text-center">
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-normal font-power-grotesk pt-0 md:pt-20 pb-0 md:pb-20">
-            <span className="text-[#F15A24] font-bold">works </span>
-            that proves creativity means business.
+        <div className="mb-12 md:mb-24 text-center pt-0 md:pt-20 pb-0 md:pb-20">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-normal font-power-grotesk ">
+            <span className="text-3xl md:text-5xl lg:text-6xl font-bold text-[#F15A24]">
+              works{" "}
+            </span>
+            <span className="text-xl md:text-2xl lg:text-3xl">
+              that proves creativity means business.
+            </span>
           </h2>
+          <p className="text-white/60 font-mono max-w-xl mx-auto mt-4 text-center">
+            {" "}
+            Here’s a glimpse into the brands we’ve helped shape. Each project is
+            the result of sharp thinking, fresh ideas, and close collaboration.{" "}
+          </p>
         </div>
 
         <div>

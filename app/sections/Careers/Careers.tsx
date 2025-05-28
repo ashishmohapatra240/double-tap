@@ -3,20 +3,22 @@ import Button from "@/components/Button/Button";
 
 export default function Careers() {
   return (
-    <section className="min-h-screen bg-black max-w-6xl mx-auto flex flex-col items-center justify-center py-40 px-4 lg:px-0">
-      <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
+    <section className="min-h-screen bg-black flex flex-col items-center py-40 px-4 lg:px-0">
+      <div className="flex flex-col md:flex-row items-center max-w-6xl mx-auto gap-10 md:gap-20">
         {/* Left side - Content */}
         <div className="w-full md:w-1/2 flex flex-col items-start">
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-normal font-power-grotesk mb-6 text-white">
-            <span className="font-bold">Our</span> tables big enough for big
-            thinkers
+          <h2 className="font-power-grotesk mb-6 text-white">
+            <span className="text-3xl md:text-5xl lg:text-6xl font-bold">
+              Our
+            </span>{" "}
+            <span className="text-xl md:text-2xl lg:text-3xl">
+              tables big enough for big thinkers
+            </span>
           </h2>
 
           <p className="text-sm md:text-base font-mono mb-8 italic text-white/60">
-            At Double Tap, we&apos;re always looking for passionate individuals
-            who think differently and aren&apos;t afraid to challenge the status
-            quo. If you&apos;re ready to join a team that values creativity,
-            innovation, and collaboration, we want to hear from you.
+            We believe bold ideas come from bold minds. If you think
+            differently, we’ve got a seat with your name on it.
           </p>
 
           <div className="flex flex-col w-full">
