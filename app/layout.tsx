@@ -1,5 +1,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import LenisProvider from "./components/LenisProvider/LenisProvider";
+
 const spaceMono = localFont({
   src: "../public/font/SpaceMono-Regular.ttf",
   variable: "--font-space-mono",
@@ -36,7 +38,9 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body> {children}</body>
+      <body>
+        <LenisProvider>{children}</LenisProvider>
+      </body>
     </html>
   );
 }

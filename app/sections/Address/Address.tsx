@@ -3,7 +3,7 @@ import Button from "@/components/Button/Button";
 
 export default function Address() {
   return (
-    <section className="relative min-h-[70vh] bg-[#DADADA] px-6 md:px-8 py-20 md:py-32">
+    <section className="relative min-h-screen bg-black flex items-center">
       <div className="max-w-7xl mx-auto relative">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-20 md:gap-40">
           {/* Left side - Image */}
@@ -23,11 +23,11 @@ export default function Address() {
 
           {/* Right side - Content */}
           <div className="lg:w-1/2 flex flex-col items-start">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-power-grotesk mb-8">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-power-grotesk mb-8 text-white">
               at
             </h2>
 
-            <address className="not-italic font-mono text-lg mb-8 leading-relaxed">
+            <address className="not-italic font-mono text-lg mb-8 leading-relaxed text-white/60">
               1st floor, OPSL Tower
               <br />
               Plot No- F/16
@@ -40,11 +40,12 @@ export default function Address() {
               <br />
               751024 Odisha
             </address>
-
-            <Button
-              href="https://maps.google.com/?q=Trident+Engineering+College+Patia+Bhubaneswar"
-              label="map"
-            />
+            <div className="flex flex-col w-full">
+              <Button
+                href="https://maps.google.com/?q=Trident+Engineering+College+Patia+Bhubaneswar"
+                label="map"
+              />
+            </div>
           </div>
         </div>
       </div>

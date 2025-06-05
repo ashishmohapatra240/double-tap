@@ -3,7 +3,7 @@ import { AnimatedLink } from "@/components/AnimatedLink";
 import Button from "@/components/Button/Button";
 export default function Contact() {
   return (
-    <section className="relative min-h-screen bg-black text-white px-6 md:px-8 py-20 md:py-32">
+    <section className="relative min-h-screen bg-black text-white flex items-center">
       {/* Background decoration */}
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute right-0 top-0 w-1/2 h-1/2 bg-gradient-to-bl from-purple-500/30" />
@@ -24,10 +24,20 @@ export default function Contact() {
                   priority
                 />
               </div>
-              <span className="text-white font-bold relative">Speak</span>
-              &nbsp;to us and let&apos;s build something extraordinary together.
+              <div className="relative">
+                <span className="text-3xl md:text-5xl lg:text-6xl font-bold relative">
+                  Speak
+                </span>
+                <span className="text-xl md:text-2xl lg:text-3xl relative">
+                  &nbsp;to us
+                </span>
+              </div>
             </h2>
           </div>
+          <p className="text-sm md:text-base font-mono mb-8 italic text-white/60">
+            Whether you’ve got a brief or just a hunch, we’d love to hear it.
+            Let’s do something great together.
+          </p>
         </div>
 
         {/* Contact Information */}

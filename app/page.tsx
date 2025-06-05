@@ -28,8 +28,8 @@ export default function Home() {
   return (
     <>
       {isLoading && <Preloader onComplete={handlePreloaderComplete} />}
-      <main className={`flex flex-col bg-[#DADADA] ${isLoading ? 'hidden' : ''}`}>
-        <Navbar />
+      <main className={`flex flex-col bg-black ${isLoading ? 'hidden' : ''}`}>
+        <Navbar startAnimation={startHeroAnimation} />
         <div id="hero"><Hero startAnimation={startHeroAnimation} /></div>
         <div id="about"><About /></div>
         <div id="services"><Services /></div>
