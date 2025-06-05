@@ -13,13 +13,13 @@ export default function Team() {
     {
       id: 1,
       name: "Priyaranjan",
-      image: "/images/team/priyaranjan.png",
+      image: "/images/team/Priya.jpg",
       description: `A visionary co-founder and Creative Director, Priyaranjan brings a wealth of experience and a bold creative spirit to the company. With formative stints at renowned agencies like Saatchi & Saatchi and Xpand, he has mastered the art of crafting compelling visual narratives and strategic brand solutions. His passion for fresh ideas and fearless approach to creativity keep our engine running. A rare blend of artistic flair and strategic insight, Priyaranjan consistently delivers work that not only meets but surpasses industry benchmarks.`,
     },
     {
       id: 2,
       name: "Lata",
-      image: "/images/team/lata.png",
+      image: "/images/team/Lata.jpg",
       description: `With a law background from HNLU and experience in corporate law, Lata dedicated the past eight years to working with numerous brands & helping them realise their branding potential. Her core competencies lie in brand communications, strategic planning, marketing campaign development, perception management, and brand identity building and development. A highlight of her expertise is crafting compelling brand narratives and effective strategies that help build brand visibility. `,
     },
   ];
@@ -29,64 +29,78 @@ export default function Team() {
       id: 1,
       name: "Geetesh",
       designation: "Creative Lead",
-      image: "/images/team/sailesh.png",
+      image: "/images/team/Geetesh.jpg",
       description: `The pixel-perfectionist who bring ideas to life. Leads the creative team with calm, class, and colour codes. Responsible? Yes. Boring? Never.`,
     },
     {
       id: 2,
       name: "Sailesh",
       designation: "Senior Project Manager",
-      image: "/images/team/sailesh.png",
+      image: "/images/team/Sailesh.jpg",
       description: `The heartbeat of the room. Laughs loud, works louder. Juggles timelines, tasks, and team moods like a pro. If it's crazy, it's probably his idea (and we love it).`,
     },
     {
       id: 3,
       name: "Jyoti",
       designation: "Project Management Lead",
-      image: "/images/team/jyoti.png",
+      image: "/images/team/Jyoti.jpg",
       description: `Keeps the crew sailing smooth, no matter the storm. Balances people, projects, and pizza orders with ease. Leads with heart, delivers with hustle.`,
     },
     {
       id: 4,
-      name: "Divya",
+      name: "Dibya",
       designation: "Graphic Designer",
-      image: "/images/team/jyoti.png",
+      image: "/images/team/Dibya.jpg",
       description: `Silent on Slack, loud on the canvas. He won't say much, but his designs say it all. First to stay back, last to miss the fun.`,
     },
     {
       id: 5,
       name: "Smita",
       designation: "Graphic Designer",
-      image: "/images/team/jyoti.png",
+      image: "/images/team/Smita.jpg",
       description: `The only lady in the creative den. Punctuality and talent? She's got both, no contest.`,
     },
     {
       id: 6,
       name: "Abhinash",
       designation: "Motion Editor",
-      image: "/images/team/sailesh.png",
+      image: "/images/team/Abhinash.jpg",
       description: `Quick with the cuts, sharper with the trends. He's the motion pro and forever mom-approved.`,
     },
     {
       id: 7,
       name: "Justin",
       designation: "3D artist and CGI Editor ",
-      image: "/images/team/sailesh.png",
+      image: "/images/team/Justin.jpg",
       description: `Breathes life into the unreal. Camera loves him almost as much as his renders do.`,
     },
     {
       id: 8,
       name: "Priyasmita",
       designation: "Content Writer",
-      image: "/images/team/jyoti.png",
+      image: "/images/team/Priyasmita.jpg",
       description: `Runs on coffee, powered by music, and writing that's as smooth as her playlist.`,
     },
     {
       id: 9,
       name: "Debjani",
       designation: "Project Manager Associate",
-      image: "/images/team/jyoti.png",
+      image: "/images/team/Debjani.jpg",
       description: `Fidget queen with a to-do list in hand. She's all heart, all hustle, all precision. Also doubles up as our default model.`,
+    },
+    {
+      id: 10,
+      name: "Shuvam",
+      designation: "Project Manager Associate",
+      image: "/images/team/Shuvam.jpg",
+      description: `Can smell biryani from two floors up. Always first to catch a trend or a deadline. Currently interning and definitely eating. `,
+    },
+    {
+      id: 11,
+      name: "Apurba",
+      designation: "Lead Cinematographer",
+      image: "/images/team/Apurb.jpg",
+      description: `Speaks like a podcast on 2x speed. Sees stories where others see shadows. The seasoned eye that never misses. `,
     },
   ];
 
@@ -213,7 +227,7 @@ export default function Team() {
             </div>
 
             {/* Desktop: Horizontal Layout */}
-            <div className="hidden md:flex md:flex-row gap-2 w-full md:w-3/4 h-[300px] mb-8 md:mb-0 overflow-hidden">
+            <div className="hidden md:flex md:flex-row gap-2 w-full md:w-3/4 h-[260px] mb-8 md:mb-0 overflow-hidden">
               {teamMembers.map((member, index) => (
                 <div
                   key={member.id}
@@ -232,7 +246,7 @@ export default function Team() {
                     className="object-cover"
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
-                    <p className="text-white text-xs md:text-sm font-power-grotesk">
+                    <p className="text-white text-xs md:text-xs font-power-grotesk">
                       {member.name}
                     </p>
                   </div>
