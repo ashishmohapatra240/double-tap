@@ -28,12 +28,12 @@ export default function About() {
           </div>
 
           <p className="text-sm md:text-base font-mono mb-8 italic text-white/60">
-            Design is the cornerstone of effective communication and
-            problem-solving. It distills complexity into simplicity, making
-            information more accessible and experiences more intuitive. Whether
-            it&apos;s a logo, a website, or a piece of furniture, thoughtful
-            design has the power to captivate, inspire, and connect with people
-            on a deeper level, enriching their lives in countless ways.
+            In a world of fleeting trends and shrinking attention spans, Double
+            Tap crafts thoughtful, lasting brand stories that truly connect. We
+            go beyond the noise to create communication that’s genuine,
+            effective, and memorable, across print, digital, and experiential
+            formats. Every detail matters, and we ensure your brand’s voice
+            comes through clearly and meaningfully.
           </p>
 
           <div className="flex flex-col w-full">
