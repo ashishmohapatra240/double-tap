@@ -18,13 +18,13 @@ export default function About() {
 
         {/* Right side - Content */}
         <div className="w-full md:w-1/2 flex flex-col items-start">
-          <div className="font-power-grotesk mb-6 text-white leading-tight flex flex-col gap-2">
-            <span className="text-3xl md:text-5xl lg:text-6xl font-bold">
+          <div className="mb-4">
+            <h2 className="text-7xl md:text-8xl font-normal font-power-grotesk text-[#F15A24] text-left">
               double tap
-            </span>{" "}
-            <span className="text-xl md:text-2xl lg:text-3xl">
+            </h2>
+            <p className="text-lg md:text-xl mt-2 font-power-grotesk text-white text-left">
               is where brands find their voice.
-            </span>
+            </p>
           </div>
 
           <p className="text-sm md:text-base font-mono mb-8 italic text-white/60">
