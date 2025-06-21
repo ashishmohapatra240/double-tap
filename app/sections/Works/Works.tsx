@@ -48,47 +48,89 @@ export default function Works() {
   };
 
   return (
-    <section className="py-40 bg-black text-white relative">
+    <section className="py-20 bg-black text-white relative">
       <AnimatePresence>
         {Object.entries(hoveredImages).map(([index, position]) => (
-          <motion.div
-            key={index}
-            className="fixed z-50 pointer-events-none"
-            style={{
-              left: `${position.x}px`,
-              top: `${position.y}px`,
-            }}
-            initial={{
-              x: 40,
-              scale: 0.4,
-              opacity: 0,
-              rotate: -6,
-            }}
-            animate={{
-              x: 0,
-              scale: 1,
-              opacity: 1,
-              rotate: -6,
-            }}
-            exit={{
-              x: 100,
-              scale: 0.4,
-              opacity: 0,
-              rotate: -6,
-            }}
-            transition={{
-              duration: 0.4,
-              ease: "easeInOut",
-            }}
-          >
-            <Image
-              src={works[Number(index)].image}
-              alt={works[Number(index)].title}
-              className="object-cover"
-              width={192} /* w-48 equals 12rem or 192px */
-              height={192} /* h-48 equals 12rem or 192px */
-            />
-          </motion.div>
+          <React.Fragment key={index}>
+            {/* First Image */}
+            <motion.div
+              className="fixed z-50 pointer-events-none"
+              style={{
+                left: `${position.x - 100}px`,
+                top: `${position.y - 100}px`,
+              }}
+              initial={{
+                x: 40,
+                scale: 0.4,
+                opacity: 0,
+                rotate: -6,
+              }}
+              animate={{
+                x: 0,
+                scale: 1,
+                opacity: 1,
+                rotate: -6,
+              }}
+              exit={{
+                x: 100,
+                scale: 0.4,
+                opacity: 0,
+                rotate: -6,
+              }}
+              transition={{
+                duration: 0.4,
+                ease: "easeInOut",
+              }}
+            >
+              <Image
+                src={works[Number(index)].image}
+                alt={works[Number(index)].title}
+                className="object-cover border-2 border-white"
+                width={240}
+                height={240}
+              />
+            </motion.div>
+
+            {/* Second Image */}
+            <motion.div
+              className="fixed z-50 pointer-events-none"
+              style={{
+                left: `${position.x + 100}px`,
+                top: `${position.y - 40}px`,
+              }}
+              initial={{
+                x: -40,
+                scale: 0.4,
+                opacity: 0,
+                rotate: 6,
+              }}
+              animate={{
+                x: 0,
+                scale: 1,
+                opacity: 1,
+                rotate: 6,
+              }}
+              exit={{
+                x: -100,
+                scale: 0.4,
+                opacity: 0,
+                rotate: 6,
+              }}
+              transition={{
+                duration: 0.4,
+                ease: "easeInOut",
+                delay: 0.1,
+              }}
+            >
+              <Image
+                src={works[Number(index)].image2}
+                alt={works[Number(index)].title}
+                className="object-cover border-2 border-white"
+                width={240}
+                height={240}
+              />
+            </motion.div>
+          </React.Fragment>
         ))}
       </AnimatePresence>
 
@@ -106,19 +148,17 @@ export default function Works() {
       `}</style>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-12 md:mb-24 text-center pt-0 md:pt-20 pb-0 md:pb-20">
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-normal font-power-grotesk ">
-            <span className="text-3xl md:text-5xl lg:text-6xl font-bold text-[#F15A24]">
-              works{" "}
-            </span>
-            <span className="text-xl md:text-2xl lg:text-3xl">
-              that proves creativity means business.
-            </span>
+        <div className="mb-12 md:mb-24">
+          <h2 className="text-7xl md:text-8xl font-normal font-power-grotesk text-[#F15A24] text-center">
+            works
           </h2>
-          <p className="text-white/60 font-mono max-w-xl mx-auto mt-4 text-center">
-            {" "}
-            Here’s a glimpse into the brands we’ve helped shape. Each project is
-            the result of sharp thinking, fresh ideas, and close collaboration.{" "}
+          <p className="text-lg md:text-xl mt-2 font-power-grotesk text-center">
+            that proves creativity means business
+          </p>
+          <p className="text-white font-mono max-w-xl mt-24">
+            Here&apos;s a glimpse into the brands we&apos;ve helped shape. Each
+            project is the result of sharp thinking, fresh ideas, and close
+            collaboration.
           </p>
         </div>
 
