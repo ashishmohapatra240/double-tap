@@ -121,7 +121,7 @@ export default function Team() {
         if (ref) {
           gsap.to(ref, {
             width: activeTeamMember === index ? "30%" : "10%",
-            duration: 0.5,
+            duration: 0.3,
             ease: "power2.inOut",
           });
         }
@@ -133,7 +133,7 @@ export default function Team() {
       gsap.fromTo(
         contentRef.current,
         { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }
+        { opacity: 1, y: 0, duration: 0.5, ease: "power2.inOut" }
       );
     }
   }, [activeTeamMember, isMobile]);
@@ -142,8 +142,8 @@ export default function Team() {
     if (!isMobile && index !== activeTeamMember) {
       gsap.to(memberRefs.current[index], {
         width: "15%",
-        duration: 0.3,
-        ease: "power2.out",
+        duration: 0.1,
+        ease: "power2.inOut",
       });
     }
   };
@@ -153,7 +153,7 @@ export default function Team() {
       gsap.to(memberRefs.current[index], {
         width: "10%",
         duration: 0.3,
-        ease: "power2.out",
+        ease: "power2.inOut",
       });
     }
   };
@@ -162,15 +162,15 @@ export default function Team() {
     <section>
       <div className="bg-black">
         <div className="flex flex-col items-center justify-center max-w-6xl mx-auto px-6 md:px-8 py-16 md:pt-20">
-          <h2 className="font-power-grotesk text-white">
-            <span className="text-3xl md:text-5xl lg:text-6xl font-bold">
+          <div className="mb-4">
+            <h2 className="text-7xl md:text-8xl font-normal font-power-grotesk text-[#F15A24] text-center">
               We
-            </span>{" "}
-            <span className="text-xl md:text-2xl lg:text-3xl">
+            </h2>
+            <p className="text-lg md:text-xl mt-2 font-power-grotesk text-white text-center">
               are a passionate mix of storytellers.
-            </span>{" "}
-          </h2>
-          <p className="text-white/60 font-mono max-w-xl mx-auto mt-4 text-center">
+            </p>
+          </div>
+          <p className="text-white/60 font-mono max-w-2xl mx-auto mt-4 text-center">
             A dynamic collective of designers, writers, strategists and doers.
             United by passion, driven by purpose, and fueled by good coffee.
           </p>
@@ -227,7 +227,7 @@ export default function Team() {
             </div>
 
             {/* Desktop: Horizontal Layout */}
-            <div className="hidden md:flex md:flex-row gap-2 w-full md:w-3/4 h-[260px] mb-8 md:mb-0 overflow-hidden">
+            <div className="hidden md:flex md:flex-row gap-1 w-full md:w-3/4 h-[260px] mb-8 md:mb-0 overflow-hidden">
               {teamMembers.map((member, index) => (
                 <div
                   key={member.id}
