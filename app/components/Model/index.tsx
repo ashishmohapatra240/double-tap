@@ -1,29 +1,43 @@
 'use client';
 
 import React, { useRef } from 'react'
-import { useGLTF, useAnimations, MeshTransmissionMaterial, Text } from '@react-three/drei'
+import { useGLTF, useAnimations, MeshTransmissionMaterial } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 // import { useControls } from 'leva'
-import { Group } from 'three'
+import { Group, Mesh, Object3D, BufferGeometry, DoubleSide } from 'three'
+
+interface MeshNode extends Object3D {
+  geometry: BufferGeometry
+}
+
+interface GLTFNodes {
+  [key: string]: Object3D
+  V2: MeshNode
+}
 
 interface ModelProps {
-  [key: string]: any
+  position?: [number, number, number]
+  rotation?: [number, number, number]
+  scale?: number | [number, number, number]
 }
 
 export function Model(props: ModelProps) {
   const group = useRef<Group>(null!)
-  const meshRef = useRef<any>(null!)
-  const { nodes, materials, animations } = useGLTF('/models/Astriks.glb')
-  const { actions } = useAnimations(animations, group)
+  const meshRef = useRef<Mesh>(null!)
+  const { nodes, animations } = useGLTF('/models/Astriks.glb')
+  useAnimations(animations, group)
   const { viewport } = useThree()
 
   const materialProps = {
-    thickness: 0.2,
-    roughness: 0,
+    thickness: 0.8,
+    roughness: 0.2,
     transmission: 1,
-    ior: 1.2,
+    ior: 1.25,
     chromaticAberration: 0.02,
     backside: true,
+    fog: true,
+    side: DoubleSide,
+    color: "#F15A24",
   }
 
   // Rotation animation - only for the mesh
@@ -52,7 +66,7 @@ export function Model(props: ModelProps) {
           name="V2"
           castShadow
           receiveShadow
-          geometry={(nodes as any).V2.geometry}
+          geometry={(nodes as GLTFNodes).V2.geometry}
           rotation={[-0.289, 0, 0]}
         >
           <MeshTransmissionMaterial {...materialProps} />
