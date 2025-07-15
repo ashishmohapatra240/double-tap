@@ -11,7 +11,7 @@ export default function SocialLink({ href, label }: SocialLinkProps) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="bg-[#1A1A1A] text-white px-6 py-2 flex items-center gap-2 hover:opacity-80 transition-opacity font-space-mono"
+      className="bg-[#1A1A1A] text-white px-6 py-2 flex items-center gap-2 hover:opacity-80 transition-opacity font-mono"
     >
       {label}
       <Image
