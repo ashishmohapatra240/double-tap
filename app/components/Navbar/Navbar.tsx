@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { AnimatedLink } from "../AnimatedLink";
 import Image from "next/image";
 import gsap from "gsap";
+import { motion } from "framer-motion";
 
 export default function Navbar({
   startAnimation = false,
@@ -16,6 +17,7 @@ export default function Navbar({
   const socialLinksRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const menuItemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
   const menuItems = [
     { label: "home", href: "/" },
@@ -34,6 +36,36 @@ export default function Navbar({
       });
     }
   }, []);
+
+  // Add hover animations to menu items
+  useEffect(() => {
+    menuItemRefs.current.forEach((ref) => {
+      if (ref) {
+        ref.addEventListener("mouseenter", () => {
+          gsap.to(ref, {
+            color: "#FFFFFF",
+            scale: 1.1,
+            rotation: 3,
+            fontWeight: 700,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+
+        ref.addEventListener("mouseleave", () => {
+          gsap.to(ref, {
+            color: "#000000",
+            scale: 1,
+            rotation: 0,
+            fontWeight: 400,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+      }
+    });
+  }, []);
+
 
   useEffect(() => {
     const menu = menuRef.current;
@@ -138,11 +170,13 @@ export default function Navbar({
           </Link>
         </div>
 
-        <button
+        <motion.button
           ref={menuButtonRef}
           className="focus:outline-none relative w-6 h-6 opacity-0"
           aria-label="Menu"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
         >
           <svg
             width="24"
@@ -152,41 +186,59 @@ export default function Navbar({
             xmlns="http://www.w3.org/2000/svg"
             className="absolute inset-0"
           >
-            <path
-              d={isMenuOpen ? "M6 6L18 18" : "M4 12H20"}
-              stroke={isMenuOpen ? "black" : "white"}
+            <motion.path
+              d="M4 6H20"
               strokeWidth="2"
               strokeLinecap="round"
-              className="transition-all duration-300 ease-in-out"
+              stroke="white"
+              style={{ originX: 0.5, originY: 0.5 }}
+              animate={{
+                rotate: isMenuOpen ? 45 : 0,
+                y: isMenuOpen ? 6 : 0,
+              }}
+              transition={{ duration: 0.4, ease: "backOut" }}
             />
-            <path
-              d={isMenuOpen ? "M18 6L6 18" : "M4 6H20"}
-              stroke={isMenuOpen ? "black" : "white"}
+            <motion.path
+              d="M4 12H20"
               strokeWidth="2"
               strokeLinecap="round"
-              className="transition-all duration-300 ease-in-out origin-center"
-              transform={isMenuOpen ? "" : "translate(0, 6)"}
+              stroke="white"
+              style={{ originX: 0.5, originY: 0.5 }}
+              animate={{
+                opacity: isMenuOpen ? 0 : 1,
+                scale: isMenuOpen ? 0 : 1,
+              }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
             />
-            <path
-              d={isMenuOpen ? "M18 6L6 18" : "M4 18H20"}
-              stroke={isMenuOpen ? "black" : "white"}
+            <motion.path
+              d="M4 18H20"
               strokeWidth="2"
               strokeLinecap="round"
-              className="transition-all duration-300 ease-in-out origin-center"
-              transform={isMenuOpen ? "translate(0, 12) scale(0)" : ""}
+              stroke="white"
+              style={{ originX: 0.5, originY: 0.5 }}
+              animate={{
+                rotate: isMenuOpen ? -45 : 0,
+                y: isMenuOpen ? -6 : 0,
+              }}
+              transition={{ duration: 0.4, ease: "backOut" }}
             />
           </svg>
-        </button>
+        </motion.button>
       </div>
 
       <div ref={menuRef} className="fixed inset-0 bg-[#FF5C28] z-40">
         <div className="flex flex-col items-center justify-center h-full">
           <nav className="text-center" ref={navItemsRef}>
-            {menuItems.map((item) => (
+            {menuItems.map((item, index) => (
               <Link
                 key={item.label}
                 href={item.href}
-                className="block text-4xl md:text-5xl font-light my-4 font-power-grotesk hover:font-bold"
+                ref={(el) => {
+                  if (el) {
+                    menuItemRefs.current[index] = el;
+                  }
+                }}
+                className="block text-4xl md:text-5xl font-normal my-4 font-power-grotesk cursor-pointer"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {item.label}

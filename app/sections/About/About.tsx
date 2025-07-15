@@ -1,4 +1,6 @@
-import Image from "next/image";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Environment } from "@react-three/drei";
+import { Model } from "@/components/Model";
 import Button from "@/components/Button/Button";
 
 export default function About() {
@@ -6,13 +8,16 @@ export default function About() {
     <section className="min-h-screen bg-black flex items-center">
       <div className="max-w-6xl mx-auto px-6 md:px-8 flex flex-col md:flex-row items-center gap-10 md:gap-16">
         <div className="w-full md:w-1/2 flex justify-center md:justify-start">
-          <div className="relative w-64 h-64 md:w-[420px] md:h-[420px] rounded-full overflow-hidden bg-[#f3e9d9]">
-            <Image
-              src="/images/about/about.png"
-              alt="About Double Tap"
-              fill
-              className="object-cover"
-            />
+          <div className="relative w-64 h-64 md:w-[420px] md:h-[420px] rounded-full overflow-hidden">
+            <Canvas
+              camera={{ position: [0, 0, 5], fov: 45 }}
+              style={{ width: '100%', height: '100%', background: '#000000' }}
+            >
+              <Model />
+              <directionalLight intensity={2} position={[0, 2, 3]} />
+              <Environment preset="city" />
+              <OrbitControls enableZoom={false} />
+            </Canvas>
           </div>
         </div>
 
@@ -30,10 +35,10 @@ export default function About() {
           <p className="text-sm md:text-base font-mono mb-8 italic text-white/60">
             In a world of fleeting trends and shrinking attention spans, Double
             Tap crafts thoughtful, lasting brand stories that truly connect. We
-            go beyond the noise to create communication that’s genuine,
+            go beyond the noise to create communication that&apos;s genuine,
             effective, and memorable, across print, digital, and experiential
-            formats. Every detail matters, and we ensure your brand’s voice
-            comes through clearly and meaningfully.
+            formats. Every detail matters, and we ensure your brand&apos;s voice
+            comes through clearly and meaningfully.
           </p>
 
           <div className="flex flex-col w-full">

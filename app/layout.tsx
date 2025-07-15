@@ -1,6 +1,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import LenisProvider from "./components/LenisProvider/LenisProvider";
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 
 const spaceMono = localFont({
   src: "../public/font/SpaceMono-Regular.ttf",
@@ -27,19 +28,9 @@ export default function RootLayout({
       lang="en"
       className={`${spaceMono.variable} ${powerGrotesk.variable}`}
     >
-      <head>
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
-            body {
-              background-color: black;
-            }
-          `,
-          }}
-        />
-      </head>
       <body>
         <LenisProvider>{children}</LenisProvider>
+        <ScrollToTop />
       </body>
     </html>
   );

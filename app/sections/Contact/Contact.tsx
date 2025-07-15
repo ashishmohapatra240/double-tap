@@ -13,30 +13,26 @@ export default function Contact() {
       <div className="max-w-7xl mx-auto relative">
         {/* Header */}
         <div className="flex flex-col items-center text-center mb-20">
-          <div className="relative inline-block">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-power-grotesk mb-6">
-              <div className="absolute -top-16 -left-30 w-32 h-32 md:w-40 md:h-40 pointer-events-none">
-                <Image
-                  src="/images/contact-3d.png"
-                  alt="3D decoration"
-                  fill
-                  className="object-contain"
-                  priority
-                />
-              </div>
-              <div className="relative">
-                <span className="text-3xl md:text-5xl lg:text-6xl font-bold relative">
-                  Speak
-                </span>
-                <span className="text-xl md:text-2xl lg:text-3xl relative">
-                  &nbsp;to us
-                </span>
-              </div>
+          <div className="relative inline-block mb-4">
+            <div className="absolute -top-16 -left-30 w-32 h-32 md:w-40 md:h-40 pointer-events-none">
+              <Image
+                src="/images/contact-3d.png"
+                alt="3D decoration"
+                fill
+                className="object-contain z-0"
+                priority
+              />
+            </div>
+            <h2 className="text-7xl md:text-8xl font-normal font-power-grotesk text-[#F15A24] text-center relative z-10">
+              speak
             </h2>
+            <p className="text-lg md:text-xl mt-2 font-power-grotesk text-white text-center">
+              to us about your next project.
+            </p>
           </div>
           <p className="text-sm md:text-base font-mono mb-8 italic text-white/60">
-            Whether you’ve got a brief or just a hunch, we’d love to hear it.
-            Let’s do something great together.
+            Whether you&apos;ve got a brief or just a hunch, we&apos;d love to
+            hear it. Let&apos;s do something great together.
           </p>
         </div>
 

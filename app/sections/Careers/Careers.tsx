@@ -58,9 +58,9 @@ export default function Careers() {
         </h2>
 
         {showReason && currentReason && (
-          <div className="text-center mb-8 animate-fade-in">
+          <div className="text-center mb-2 animate-fade-in">
             <p className="text-xl md:text-2xl font-mono text-[#F15A24] italic max-w-4xl tracking-tight">
-              &ldquo;{currentReason}&rdquo;
+              {currentReason}
             </p>
           </div>
         )}

@@ -263,11 +263,11 @@ export default function Team() {
                   }`}
                 >
                   <div className="flex flex-row gap-2 items-end">
-                    <h3 className="text-xl md:text-2xl font-power-grotesk mb-2 text-white">
+                    <h3 className="text-xl md:text-3xl font-power-grotesk mb-2 text-[#F15A24]">
                       {member.name}
                     </h3>
-                    <p className="font-mono text-xs md:text-md text-white/60 mb-2">
-                      ({member.designation})
+                    <p className="font-mono text-xs md:text-base text-white  mb-2">
+                      {member.designation}
                     </p>
                   </div>
 

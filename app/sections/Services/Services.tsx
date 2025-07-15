@@ -85,12 +85,12 @@ export default function Services() {
       <div className="flex flex-col">
         <div className="flex gap-4 items-center">
           <AnimatedIcon src={service.icon} />
-          <h3 className="text-xl font-medium font-power-grotesk">
+          <h3 className="text-xl font-normal font-power-grotesk">
             {service.title}
           </h3>
         </div>
 
-        <p className="text-neutral-400 font-mono">{service.description}</p>
+        <p className="text-white/60 font-mono">{service.description}</p>
       </div>
     );
   };

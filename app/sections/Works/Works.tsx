@@ -155,7 +155,7 @@ export default function Works() {
           <p className="text-lg md:text-xl mt-2 font-power-grotesk text-center">
             that proves creativity means business
           </p>
-          <p className="text-white font-mono max-w-xl mt-24">
+          <p className="text-white font-mono mt-24 text-center max-w-2xl mx-auto">
             Here&apos;s a glimpse into the brands we&apos;ve helped shape. Each
             project is the result of sharp thinking, fresh ideas, and close
             collaboration.
