@@ -28,17 +28,6 @@ export default function RootLayout({
       lang="en"
       className={`${spaceMono.variable} ${powerGrotesk.variable}`}
     >
-      <head>
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
-            body {
-              background-color: black;
-            }
-          `,
-          }}
-        />
-      </head>
       <body>
         <LenisProvider>{children}</LenisProvider>
         <ScrollToTop />
