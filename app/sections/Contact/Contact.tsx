@@ -3,7 +3,21 @@ import { Environment } from "@react-three/drei";
 import { AnimatedLink } from "@/components/AnimatedLink";
 import Button from "@/components/Button/Button";
 import { ModelLogo } from "@/components/Model/ModelLogo";
+import { useState, useEffect } from "react";
 export default function Contact() {
+  const [modelScale, setModelScale] =  useState<[number, number, number]>([0.8, 0.8, 0.8]);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setModelScale([0.8, 0.8, 0.8]);
+      } else {
+        setModelScale([1.5, 1.5, 1.5]);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <section className="relative min-h-screen bg-black text-white flex items-center">
       {/* Background decoration */}
@@ -15,13 +29,13 @@ export default function Contact() {
       <div className="max-w-7xl mx-auto relative">
         {/* Header */}
         <div className="flex flex-col items-center text-center mb-20">
-          <div className="relative flex flex-col items-center justify-center mb-4" style={{ height: '20rem', width: '40rem' }}>
-            <div className="absolute inset-0 flex items-center justify-center z-10" style={{ height: '100%', width: '100%' }}>
+          <div className="relative flex flex-col items-center justify-center mb-4 w-full max-w-[90vw] h-64 md:h-[20rem] md:w-[40rem]">
+            <div className="absolute inset-0 flex items-center justify-center z-10 w-full h-full">
               <Canvas
                 camera={{ position: [0, 0, 5], fov: 45 }}
                 style={{ width: '100%', height: '100%', background: '#000000' }}
               >
-                <ModelLogo scale={[1,1,1]} />
+                <ModelLogo scale={modelScale} />
                 <directionalLight intensity={2} position={[0, 2, 3]} />
                 <Environment preset="city" />
               </Canvas>
