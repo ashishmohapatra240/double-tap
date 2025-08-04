@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { works } from "@/data/works";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Works() {
@@ -164,9 +165,10 @@ export default function Works() {
 
         <div>
           {works.map((item, index) => (
-            <div
+            <Link
               key={index}
-              className="group relative overflow-hidden"
+              href={`/projects/${item.slug}`}
+              className="group relative overflow-hidden block"
               tabIndex={0}
               onMouseEnter={(e) => handleMouseEnter(index, e)}
               onMouseLeave={() => handleMouseLeave(index)}
@@ -186,8 +188,17 @@ export default function Works() {
                 </div>
               </div>
               <div className="absolute inset-0 bg-[#F15A24] transform origin-center scale-y-0 transition-transform duration-[400ms] ease-in-out group-hover:scale-y-100" />
-            </div>
+            </Link>
           ))}
+        </div>
+
+        <div className="text-center mt-16">
+          <Link
+            href="/projects"
+            className="inline-flex items-center text-[#F15A24] font-mono hover:text-white transition-colors duration-300 text-lg"
+          >
+            View All Case Studies →
+          </Link>
         </div>
       </div>
     </section>

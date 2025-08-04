@@ -9,7 +9,6 @@ export default function Address() {
           {/* Left side - Image */}
           <div className="lg:w-1/2">
             <div className="relative flex items-center justify-center gap-4">
-              <div className="w-[300px] md:w-[1000px]">
                 <Image
                   src="/images/address/table.png"
                   height={1000}
@@ -17,7 +16,6 @@ export default function Address() {
                   alt="Wooden tables with laptops"
                   className="w-full h-full object-contain"
                 />
-              </div>
             </div>
           </div>
 
