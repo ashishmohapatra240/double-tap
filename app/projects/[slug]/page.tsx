@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import { works } from "@/data/works";
 import { notFound } from "next/navigation";
@@ -8,13 +7,14 @@ import { motion } from "framer-motion";
 import ServiceChips from "@/components/ServiceChips/ServiceChips";
 
 interface ProjectPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
-export default function ProjectPage({ params }: ProjectPageProps) {
-  const project = works.find((work) => work.slug === params.slug);
+export default async function ProjectPage({ params }: ProjectPageProps) {
+  const { slug } = await params;
+  const project = works.find((work) => work.slug === slug);
 
   if (!project) {
     notFound();
