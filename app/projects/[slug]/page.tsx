@@ -3,7 +3,6 @@ import { works } from "@/data/works";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import ServiceChips from "@/components/ServiceChips/ServiceChips";
 
 interface ProjectPageProps {
@@ -24,12 +23,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     <section className="py-20 bg-black text-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-16"
-        >
+        <div className="mb-16">
           <Link
             href="/projects"
             className="inline-flex items-center text-gray-500 font-mono mb-8 hover:text-white transition-colors duration-300"
@@ -56,15 +50,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             </div> */}
 
           </div>
-        </motion.div>
+        </div>
 
         {/* Project Images */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid md:grid-cols-2 gap-8 mb-16"
-        >
+        <div className="grid md:grid-cols-2 gap-8 mb-16">
           <div className="relative">
             <Image
               src={project.image}
@@ -83,60 +72,40 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               className="w-full h-auto object-cover"
             />
           </div>
-        </motion.div>
+        </div>
 
         {/* Goal */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mb-16"
-        >
+        <div className="mb-16">
           <h2 className="text-3xl md:text-4xl font-normal font-power-grotesk text-white mb-6">
             Goal
           </h2>
           <p className="text-lg text-gray-400 font-mono leading-relaxed">
             {project.goal}
           </p>
-        </motion.div>
+        </div>
 
         {/* Problem Statement */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mb-16"
-        >
+        <div className="mb-16">
           <h2 className="text-3xl md:text-4xl font-normal font-power-grotesk text-white mb-6">
             Problem Statement
           </h2>
           <p className="text-lg text-gray-400 font-mono leading-relaxed">
             {project.problemStatement}
           </p>
-        </motion.div>
+        </div>
 
         {/* Our Approach */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="mb-16"
-        >
+        <div className="mb-16">
           <h2 className="text-3xl md:text-4xl font-normal font-power-grotesk text-white mb-6">
             Our Approach
           </h2>
           <p className="text-lg text-gray-400 font-mono leading-relaxed">
             {project.approach}
           </p>
-        </motion.div>
+        </div>
 
         {/* What We Did */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="mb-16"
-        >
+        <div className="mb-16">
           <h2 className="text-3xl md:text-4xl font-normal font-power-grotesk text-white mb-6">
             What We Did
           </h2>
@@ -150,15 +119,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               </li>
             ))}
           </ul>
-        </motion.div>
+        </div>
 
         {/* Mediums Used */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.7 }}
-          className="mb-16"
-        >
+        <div className="mb-16">
           <h2 className="text-3xl md:text-4xl font-normal font-power-grotesk text-white mb-6">
             Mediums Used
           </h2>
@@ -172,13 +136,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               </span>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Results */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
+        <div
           className="mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-normal font-power-grotesk text-white mb-6">
@@ -187,13 +148,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           <p className="text-lg text-gray-400 font-mono leading-relaxed">
             {project.results}
           </p>
-        </motion.div>
+        </div>
 
         {/* Navigation */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.9 }}
+        <div
           className="border-t border-gray-600 pt-8"
         >
           <Link
@@ -202,7 +160,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           >
             ← Back to Case Studies
           </Link>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
