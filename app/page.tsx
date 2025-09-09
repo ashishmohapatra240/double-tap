@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import Footer from "@/sections/Footer/Footer";
+// import Footer from "@/sections/Footer/Footer";
 import Hero from "@/sections/Hero/Hero";
 import About from "@/sections/About/About";
 import Services from "@/sections/Services/Services";
