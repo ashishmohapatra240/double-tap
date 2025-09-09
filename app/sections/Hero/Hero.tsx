@@ -7,9 +7,10 @@ gsap.registerPlugin(ScrollToPlugin);
 
 interface HeroProps {
   startAnimation: boolean;
+  onIntroComplete?: () => void;
 }
 
-export default function Hero({ startAnimation }: HeroProps) {
+export default function Hero({ startAnimation, onIntroComplete }: HeroProps) {
   const textRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
   useEffect(() => {
@@ -27,33 +28,59 @@ export default function Hero({ startAnimation }: HeroProps) {
           stagger: 0.15,
           ease: "power4.inOut",
           delay: 0.2,
+          onComplete: () => {
+            if (onIntroComplete) {
+              onIntroComplete();
+            }
+          },
         }
       );
     }
 
-    textRefs.current.forEach((ref) => {
+    textRefs.current.forEach((ref, index) => {
       if (ref) {
         ref.addEventListener("mouseenter", () => {
           gsap.to(ref, {
             color: "#F15A24",
             scale: 1.1,
             rotation: 3,
-            fontWeight: 700,
+            fontWeight: 600,
             duration: 0.3,
             ease: "power2.out",
           });
         });
 
         ref.addEventListener("mouseleave", () => {
-          gsap.to(ref, {
-            color: "#FFFFFF",
-            scale: 1,
-            rotation: 0,
-            fontWeight: 400,
-            duration: 0.3,
-            ease: "power2.out",
-          });
+          gsap.to(
+            ref,
+            index === 1
+              ? {
+                  color: "#F15A24",
+                  scale: 1,
+                  rotation: 3,
+                  fontWeight: 700,
+                  duration: 0.3,
+                  ease: "power2.out",
+                }
+              : {
+                  color: "#FFFFFF",
+                  scale: 1,
+                  rotation: 0,
+                  fontWeight: 400,
+                  duration: 0.3,
+                  ease: "power2.out",
+                }
+          );
         });
+
+        if (index === 1) {
+          gsap.set(ref, {
+            color: "#F15A24",
+            rotation: 3,
+            fontWeight: 700,
+            scale: 1.1,
+          });
+        }
       }
     });
   }, [startAnimation]);
@@ -73,7 +100,7 @@ export default function Hero({ startAnimation }: HeroProps) {
   };
 
   return (
-    <section className="min-h-screen h-dvh bg-black flex flex-col">
+    <section className="min-h-[85dvh] bg-black flex flex-col">
       <div className="flex-1 flex items-center justify-center mx-auto px-4">
         <h1 className="text-5xl lg:text-6xl font-normal md:text-center mx-auto font-power-grotesk text-[#D9D9D9]">
           <span
@@ -93,7 +120,7 @@ export default function Hero({ startAnimation }: HeroProps) {
                 textRefs.current[1] = el;
               }
             }}
-            className="cursor-pointer inline-block translate-y-[100px] opacity-0"
+            className="cursor-pointer inline-block translate-y-[100px] opacity-0 text-[#F15A24] rotate-3"
             onClick={() => scrollToSection("about")}
           >
             double tap
