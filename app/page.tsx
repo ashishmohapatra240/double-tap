@@ -12,15 +12,16 @@ import Address from "@/sections/Address/Address";
 import Careers from "@/sections/Careers/Careers";
 import Preloader from "@/components/Preloader/Preloader";
 import Navbar from "@/components/Navbar/Navbar";
+import Video from './sections/Video/Video';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
   const [startHeroAnimation, setStartHeroAnimation] = useState(false)
+  const [isMuted, setIsMuted] = useState(false)
 
   const handlePreloaderComplete = () => {
     setIsLoading(false);
-    // Trigger hero animation after a small delay
-    setTimeout(() => {
+      setTimeout(() => {
       setStartHeroAnimation(true);
     }, 100);
   };
@@ -29,8 +30,9 @@ export default function Home() {
     <>
       {isLoading && <Preloader onComplete={handlePreloaderComplete} />}
       <main className={`flex flex-col bg-black ${isLoading ? 'hidden' : ''}`}>
-        <Navbar startAnimation={startHeroAnimation} />
-        <div id="hero"><Hero startAnimation={startHeroAnimation} /></div>
+        <Navbar startAnimation={startHeroAnimation} isMuted={isMuted} setIsMuted={setIsMuted} />
+        <div id="hero" className="relative"><Hero startAnimation={startHeroAnimation} /></div>
+        <div id="video" className="relative"><Video isMuted={isMuted} /></div>
         <div id="about"><About /></div>
         <div id="services"><Services /></div>
         <div id="team"><Team /></div>
@@ -39,7 +41,7 @@ export default function Home() {
         <div id="careers"><Careers /></div>
         <div id="address"><Address /></div>
         <div id="contact"><Contact /></div>
-        <Footer />
+        {/* <Footer /> */}
       </main>
     </>
   );
