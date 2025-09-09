@@ -8,8 +8,12 @@ import { motion } from "framer-motion";
 
 export default function Navbar({
   startAnimation = false,
+  isMuted = false,
+  setIsMuted,
 }: {
   startAnimation?: boolean;
+  isMuted?: boolean;
+  setIsMuted?: (muted: boolean) => void;
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -17,6 +21,7 @@ export default function Navbar({
   const socialLinksRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const muteButtonRef = useRef<HTMLButtonElement>(null);
   const menuItemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
   const menuItems = [
@@ -38,7 +43,6 @@ export default function Navbar({
     }
   }, []);
 
-  // Add hover animations to menu items
   useEffect(() => {
     menuItemRefs.current.forEach((ref) => {
       if (ref) {
@@ -66,7 +70,6 @@ export default function Navbar({
       }
     });
   }, []);
-
 
   useEffect(() => {
     const menu = menuRef.current;
@@ -140,6 +143,21 @@ export default function Navbar({
       );
 
       gsap.fromTo(
+        muteButtonRef.current,
+        {
+          y: -50,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.4,
+          ease: "power4.out",
+          delay: 0.25,
+        }
+      );
+
+      gsap.fromTo(
         menuButtonRef.current,
         {
           y: -50,
@@ -156,20 +174,89 @@ export default function Navbar({
     }
   }, [startAnimation]);
 
+  const toggleMute = () => {
+    if (setIsMuted) {
+      setIsMuted(!isMuted);
+    }
+  };
+
   return (
-    <>
-      <div className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center mx-auto py-8 px-6 lg:px-20">
-        <div ref={logoRef} className="opacity-0">
-          <Link href="/">
-            <Image
-              src="/images/logo.png"
-              alt="Logo"
-              width={200}
-              height={100}
-              className="w-auto h-[24px] md:h-[30px]"
-            />
-          </Link>
-        </div>
+    <div className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center mx-auto py-8 px-6 lg:px-20">
+      <div ref={logoRef} className="opacity-0">
+        <Link href="/">
+          <Image
+            src="/images/logo.png"
+            alt="Logo"
+            width={200}
+            height={100}
+            className="w-auto h-[24px] md:h-[30px]"
+          />
+        </Link>
+      </div>
+
+      <div className="flex items-center gap-4">
+        <motion.button
+          ref={muteButtonRef}
+          className="focus:outline-none relative w-6 h-6 opacity-0"
+          aria-label={isMuted ? "Unmute" : "Mute"}
+          onClick={toggleMute}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="absolute inset-0"
+          >
+            {isMuted ? (
+              <>
+                <path
+                  d="M11 5L6 9H2V15H6L11 19V5Z"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M19.07 4.93C20.9444 6.8044 21.9999 9.3474 21.9999 12C21.9999 14.6526 20.9444 17.1956 19.07 19.07M15.54 8.46C16.4774 9.39764 17.0039 10.6692 17.0039 12C17.0039 13.3308 16.4774 14.6024 15.54 15.54"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <line
+                  x1="2"
+                  y1="2"
+                  x2="22"
+                  y2="22"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </>
+            ) : (
+              <>
+                <path
+                  d="M11 5L6 9H2V15H6L11 19V5Z"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M19.07 4.93C20.9444 6.8044 21.9999 9.3474 21.9999 12C21.9999 14.6526 20.9444 17.1956 19.07 19.07M15.54 8.46C16.4774 9.39764 17.0039 10.6692 17.0039 12C17.0039 13.3308 16.4774 14.6024 15.54 15.54"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </>
+            )}
+          </svg>
+        </motion.button>
 
         <motion.button
           ref={menuButtonRef}
@@ -262,6 +349,6 @@ export default function Navbar({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
