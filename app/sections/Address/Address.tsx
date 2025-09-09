@@ -6,7 +6,6 @@ export default function Address() {
     <section className="relative min-h-screen bg-black flex items-center">
       <div className="max-w-7xl mx-auto relative">
         <div className="flex flex-col lg:flex-row items-center justify-between">
-          {/* Left side - Image */}
           <div className="lg:w-1/2">
             <div className="relative flex items-center justify-center gap-4">
                 <Image
@@ -19,13 +18,12 @@ export default function Address() {
             </div>
           </div>
 
-          {/* Right side - Content */}
           <div className="lg:w-1/2 flex flex-col items-start">
             <div className="mb-12">
-              <h2 className="text-7xl md:text-8xl font-normal font-power-grotesk text-[#F15A24] text-left">
+              <h2 className="text-7xl md:text-8xl font-normal font-power-grotesk bg-gradient-to-r from-[#F15A24] to-[#fdc800] bg-clip-text text-transparent text-left">
                 at
               </h2>
-              <p className="text-lg md:text-xl mt-2 font-mono text-white text-left">
+              <p className="text-lg md:text-xl mt-2 font-mono text-[#D9D9D9] text-left">
                 1st floor, OPSL Tower
                 <br />
                 Plot No- F/16

@@ -85,12 +85,12 @@ export default function Services() {
       <div className="flex flex-col">
         <div className="flex gap-4 items-center">
           <AnimatedIcon src={service.icon} />
-          <h3 className="text-xl font-normal font-power-grotesk">
+          <h3 className="text-xl font-normal font-power-grotesk text-[#D9D9D9]">
             {service.title}
           </h3>
         </div>
 
-        <p className="text-white/60 font-mono">{service.description}</p>
+        <p className="text-[#D9D9D9] font-mono">{service.description}</p>
       </div>
     );
   };
@@ -99,24 +99,22 @@ export default function Services() {
     <section className="min-h-screen bg-black text-white flex items-center py-40">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-20">
         <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-20 min-h-[80vh]">
-          {/* Headline - Left side */}
           <div className="lg:w-1/2 flex flex-col justify-center min-h-[80vh]">
             <div className="text-center lg:text-left">
-              <h2 className="text-7xl md:text-8xl font-normal font-power-grotesk text-[#F15A24]">
+              <h2 className="text-7xl md:text-8xl font-normal font-power-grotesk bg-gradient-to-r from-[#F15A24] to-[#fdc800] bg-clip-text text-transparent">
                 let
               </h2>
-              <p className="text-lg md:text-xl mt-2 font-power-grotesk text-white">
+              <p className="text-lg md:text-xl mt-2 font-power-grotesk text-[#D9D9D9]">
                 us shape your brand&apos;s journey.
               </p>
             </div>
 
-            <p className="text-white/60 font-mono max-w-xl mx-auto lg:mx-0 mt-4 text-center lg:text-left">
+            <p className="text-[#D9D9D9] font-mono max-w-xl mx-auto lg:mx-0 mt-4 text-center lg:text-left">
               From strategy and storytelling to design and digital, we offer
               complete creative services that help brands grow and stand out.
             </p>
           </div>
 
-          {/* Services grid - Right side */}
           <div className="lg:w-1/2">
             <div className="flex flex-col gap-8 md:gap-10">
               {services.map((service, index) => (

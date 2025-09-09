@@ -75,7 +75,7 @@ export default function Hero({ startAnimation }: HeroProps) {
   return (
     <section className="min-h-screen h-dvh bg-black flex flex-col">
       <div className="flex-1 flex items-center justify-center mx-auto px-4">
-        <h1 className="text-5xl lg:text-6xl font-normal md:text-center mx-auto font-power-grotesk text-white">
+        <h1 className="text-5xl lg:text-6xl font-normal md:text-center mx-auto font-power-grotesk text-[#D9D9D9]">
           <span
             ref={(el) => {
               if (el) {

@@ -17,7 +17,6 @@ export default function Works() {
         window.requestAnimationFrame(() => {
           setHoveredImages((prev) => {
             const newState = { ...prev };
-            // Update position for all active images
             Object.keys(newState).forEach((key) => {
               newState[Number(key)] = { x: e.clientX, y: e.clientY };
             });
@@ -53,7 +52,6 @@ export default function Works() {
       <AnimatePresence>
         {Object.entries(hoveredImages).map(([index, position]) => (
           <React.Fragment key={index}>
-            {/* First Image */}
             <motion.div
               className="fixed z-50 pointer-events-none"
               style={{
@@ -92,7 +90,6 @@ export default function Works() {
               />
             </motion.div>
 
-            {/* Second Image */}
             <motion.div
               className="fixed z-50 pointer-events-none"
               style={{
@@ -150,13 +147,13 @@ export default function Works() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12 md:mb-24">
-          <h2 className="text-7xl md:text-8xl font-normal font-power-grotesk text-[#F15A24] text-center">
+          <h2 className="text-7xl md:text-8xl font-normal font-power-grotesk bg-gradient-to-r from-[#F15A24] to-[#fdc800] bg-clip-text text-transparent text-center">
             works
           </h2>
-          <p className="text-lg md:text-xl mt-2 font-power-grotesk text-center">
+          <p className="text-lg md:text-xl mt-2 font-power-grotesk text-[#D9D9D9] text-center">
             that proves creativity means business
           </p>
-          <p className="text-white font-mono mt-24 text-center max-w-2xl mx-auto">
+          <p className="text-[#D9D9D9] font-mono mt-24 text-center max-w-2xl mx-auto">
             Here&apos;s a glimpse into the brands we&apos;ve helped shape. Each
             project is the result of sharp thinking, fresh ideas, and close
             collaboration.
@@ -179,10 +176,10 @@ export default function Works() {
             >
               <div className="border-t border-b border-gray-600 py-6 relative z-10">
                 <div className="px-2 md:px-6 flex flex-col md:flex-row gap-2 md:gap-6 items-start md:items-end">
-                  <h3 className="text-2xl md:text-3xl font-normal font-power-grotesk">
+                  <h3 className="text-2xl md:text-3xl font-normal font-power-grotesk text-[#D9D9D9]">
                     {item.title}
                   </h3>
-                  <p className="text-sm text-[#4D4D4D] group-hover:text-white transition-colors duration-300 font-power-grotesk">
+                  <p className="text-sm text-[#D9D9D9] group-hover:text-white transition-colors duration-300 font-power-grotesk">
                     {item.description}
                   </p>
                 </div>
@@ -195,9 +192,9 @@ export default function Works() {
         <div className="text-center mt-16">
           <Link
             href="/projects"
-            className="inline-flex items-center text-[#F15A24] font-mono hover:text-white transition-colors duration-300 text-lg"
+            className="inline-flex items-center text-[#D9D9D9] font-mono hover:text-white transition-colors duration-300 text-lg"
           >
-            View All Case Studies →
+            View All Case Studies
           </Link>
         </div>
       </div>
