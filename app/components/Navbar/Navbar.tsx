@@ -314,7 +314,7 @@ export default function Navbar({
         </motion.button>
       </div>
 
-      <div ref={menuRef} className="fixed inset-0 bg-[#FF5C28] z-40">
+      <div ref={menuRef} className="fixed inset-0 bg-[#FF5C28] z-40 transform -translate-y-full will-change-transform">
         <div className="flex flex-col items-center justify-center h-full">
           <nav className="text-center" ref={navItemsRef}>
             {menuItems.map((item, index) => (
