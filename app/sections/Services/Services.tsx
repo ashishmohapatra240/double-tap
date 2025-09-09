@@ -85,41 +85,43 @@ export default function Services() {
       <div className="flex flex-col">
         <div className="flex gap-4 items-center">
           <AnimatedIcon src={service.icon} />
-          <h3 className="text-xl font-normal font-power-grotesk">
+          <h3 className="text-xl font-normal font-power-grotesk text-[#D9D9D9]">
             {service.title}
           </h3>
         </div>
 
-        <p className="text-white/60 font-mono">{service.description}</p>
+        <p className="text-[#D9D9D9] font-mono">{service.description}</p>
       </div>
     );
   };
 
   return (
     <section className="min-h-screen bg-black text-white flex items-center py-40">
-      <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-20">
-        {/* Headline */}
-        <div className="mb-12 md:mb-24 text-center flex flex-col gap-4">
-          <div className="mb-4">
-            <h2 className="text-7xl md:text-8xl font-normal font-power-grotesk text-[#F15A24] text-center">
-              let
-            </h2>
-            <p className="text-lg md:text-xl mt-2 font-power-grotesk text-white text-center">
-              us shape your brand&apos;s journey.
+      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-20">
+        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-20 min-h-[80vh]">
+          <div className="lg:w-1/2 flex flex-col justify-center min-h-[80vh]">
+            <div className="text-center lg:text-left">
+              <h2 className="text-7xl md:text-8xl font-normal font-power-grotesk bg-gradient-to-r from-[#F15A24] to-[#fdc800] bg-clip-text text-transparent">
+                let
+              </h2>
+              <p className="text-lg md:text-xl mt-2 font-power-grotesk text-[#D9D9D9]">
+                us shape your brand&apos;s journey.
+              </p>
+            </div>
+
+            <p className="text-[#D9D9D9] font-mono max-w-xl mx-auto lg:mx-0 mt-4 text-center lg:text-left">
+              From strategy and storytelling to design and digital, we offer
+              complete creative services that help brands grow and stand out.
             </p>
           </div>
 
-          <p className="text-white/60 font-mono max-w-xl mx-auto mt-4 text-center">
-            From strategy and storytelling to design and digital, we offer
-            complete creative services that help brands grow and stand out.
-          </p>
-        </div>
-
-        {/* Services grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 md:gap-x-12 gap-y-10 md:gap-y-16">
-          {services.map((service, index) => (
-            <ServiceCard key={index} service={service} />
-          ))}
+          <div className="lg:w-1/2">
+            <div className="flex flex-col gap-8 md:gap-10">
+              {services.map((service, index) => (
+                <ServiceCard key={index} service={service} />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

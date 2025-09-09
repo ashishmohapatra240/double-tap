@@ -8,8 +8,8 @@ export default function BrandsShowcase() {
     <section className="mt-10 mb-20 md:mt-20 md:mb-40 bg-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-normal font-power-grotesk flex justify-center text-white">
-            our&nbsp;<span className="text-[#F15A24]">partners</span>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-normal font-power-grotesk flex justify-center text-[#D9D9D9]">
+            our&nbsp;<span className="bg-gradient-to-r from-[#F15A24] to-[#fdc800] bg-clip-text text-transparent">partners</span>
           </h2>
         </div>
 

@@ -21,10 +21,9 @@ export default function About() {
           </div>
         </div>
 
-        {/* Right side - Content */}
         <div className="w-full md:w-1/2 flex flex-col items-start">
           <div className="mb-4">
-            <h2 className="text-7xl md:text-8xl font-normal font-power-grotesk text-[#F15A24] text-left">
+            <h2 className="text-7xl md:text-8xl font-normal font-power-grotesk bg-gradient-to-r from-[#F15A24] to-[#ffaf00] bg-clip-text text-transparent text-left">
               double tap
             </h2>
             <p className="text-lg md:text-xl mt-2 font-power-grotesk text-white text-left">

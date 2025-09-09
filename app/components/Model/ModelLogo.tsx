@@ -2,7 +2,11 @@ import React, { useRef, useEffect } from 'react';
 import { useGLTF, useAnimations, MeshTransmissionMaterial, Text } from '@react-three/drei';
 import { DoubleSide, Group, Mesh } from 'three';
 
-export function ModelLogo(props: React.ComponentProps<'group'>) {
+interface ModelLogoProps extends React.ComponentProps<'group'> {
+    textSize?: number;
+}
+
+export function ModelLogo({ textSize = 3, ...props }: ModelLogoProps) {
     const group = useRef<Group>(null!);
     const { nodes, animations } = useGLTF('/models/Logo.glb');
     const { actions } = useAnimations(animations, group);
@@ -28,8 +32,8 @@ export function ModelLogo(props: React.ComponentProps<'group'>) {
     return (
         <group ref={group} {...props} dispose={null}>
             <Text
-                position={[0, 0, -1]}
-                fontSize={3}
+                position={[0, 0, -4]}
+                fontSize={textSize}
                 color="white"
                 anchorX="center"
                 anchorY="middle"
@@ -38,7 +42,7 @@ export function ModelLogo(props: React.ComponentProps<'group'>) {
                 Speak
             </Text>
             <group name="Scene">
-                <group name="Empty" scale={[2.673, 1.312, 1.278]}>
+                <group name="Empty" scale={[1.6, 0.8, 0.8]}>
                     <mesh
                         name="Sphere"
                         castShadow

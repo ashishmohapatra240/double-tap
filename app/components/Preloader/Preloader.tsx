@@ -9,26 +9,25 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
 
   const greetings = useMemo(
     () => [
-      "ନମସ୍କାର", // Odia
-      "नमस्कार", // Hindi
-      "नमस्कार", // Marathi
-      "नमस्कारः", // Sanskrit
-      "নমস্কার", // Bengali
-      "નમસ્કાર", // Gujarati
-      "ਨਮਸਕਾਰ", // Punjabi
-      "வணக்கம்", // Tamil
-      "నమస్కారం", // Telugu
-      "ನಮಸ್ಕಾರ", // Kannada
-      "నమస్కారం", // Malayalam
-      "নমস্কাৰ", // Assamese
-      "نمسکار", // Urdu
-      "نمسڪار", // Sindhi
-      "Namaskar", // English
+      "ନମସ୍କାର",
+      "नमस्कार",
+      "नमस्कार",
+      "नमस्कारः",
+      "নমস্কার",
+      "નમસ્કાર",
+      "ਨਮਸਕਾਰ",
+      "வணக்கம்",
+      "నమస్కారం",
+      "ನಮಸ್ಕಾರ",
+      "నమస్కారం",
+      "নমস্কাৰ",
+      "نمسکار",
+      "نمسڪار",
+      "Namaskar",
     ],
     []
   );
 
-  // Start with empty string to prevent flash of Odia text
   const [currentGreeting, setCurrentGreeting] = useState("");
 
   useEffect(() => {
@@ -44,7 +43,6 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
       },
     });
 
-    // Set initial states
     gsap.set(containerRef.current, {
       position: "fixed",
       top: 0,
@@ -73,7 +71,7 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
       top: "50%",
       transform: "translate(-50%, -50%)",
       color: "#000000",
-      fontSize: "2rem",
+      fontSize: "2.4rem",
       fontFamily: "var(--font-power-grotesk)",
       zIndex: 51,
     });
@@ -84,37 +82,36 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
       textTimeline.to(
         {},
         {
-          duration: 0.2,
+          duration: 0.15,
           ease: "power2.inOut",
           onComplete: () => setCurrentGreeting(greeting),
         }
       );
     });
 
-    // Add final English "Namaskar"
     textTimeline.to(
       {},
       {
-        duration: 0.5,
+        duration: 0.4,
         onComplete: () => setCurrentGreeting("Namaskar"),
       }
     );
 
     tl.to(textRef.current, {
       opacity: 1,
-      duration: 1,
-      onStart: () => setCurrentGreeting(greetings[0]), // Set first greeting when fade-in starts
+      duration: 0.8,
+      onStart: () => setCurrentGreeting(greetings[0]),
     })
       .add(textTimeline)
       .to(rectangleRef.current, {
         width: "100vw",
-        duration: 3,
+        duration: 2.5,
         ease: "power2.inOut",
       })
       .to(rectangleRef.current, {
         height: "100vh",
         bottom: 0,
-        duration: 1.5,
+        duration: 1.2,
         ease: "power2.inOut",
       });
   }, [onComplete, greetings]);

@@ -163,23 +163,21 @@ export default function Team() {
       <div className="bg-black">
         <div className="flex flex-col items-center justify-center max-w-6xl mx-auto px-6 md:px-8 py-16 md:pt-20">
           <div className="mb-4">
-            <h2 className="text-7xl md:text-8xl font-normal font-power-grotesk text-[#F15A24] text-center">
+            <h2 className="text-7xl md:text-8xl font-normal font-power-grotesk bg-gradient-to-r from-[#F15A24] to-[#fdc800] bg-clip-text text-transparent text-center">
               We
             </h2>
-            <p className="text-lg md:text-xl mt-2 font-power-grotesk text-white text-center">
+            <p className="text-lg md:text-xl mt-2 font-power-grotesk text-[#D9D9D9] text-center">
               are a passionate mix of storytellers.
             </p>
           </div>
-          <p className="text-white/60 font-mono max-w-2xl mx-auto mt-4 text-center">
+          <p className="text-[#D9D9D9] font-mono max-w-2xl mx-auto mt-4 text-center">
             A dynamic collective of designers, writers, strategists and doers.
             United by passion, driven by purpose, and fueled by good coffee.
           </p>
         </div>
-        {/* Upper section - Two featured team members */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 max-w-7xl mx-auto px-6 md:px-8">
           {featuredMembers.map((member) => (
             <div key={member.id} className="flex flex-col md:flex-row gap-6">
-              {/* Image on left side */}
               <div className="w-full md:w-1/2 aspect-square relative">
                 <Image
                   src={member.image}
@@ -189,12 +187,11 @@ export default function Team() {
                 />
               </div>
 
-              {/* Content on right side */}
               <div className="w-full md:w-1/2">
-                <h3 className="text-xl md:text-2xl font-power-grotesk mb-4 text-white">
+                <h3 className="text-xl md:text-2xl font-power-grotesk mb-4 bg-gradient-to-r from-[#F15A24] to-[#fdc800] bg-clip-text text-transparent text-[#D9D9D9]">
                   {member.name}
                 </h3>
-                <p className="font-mono text-xs md:text-sm text-white/60">
+                <p className="font-mono text-xs md:text-sm text-[#D9D9D9]">
                   {member.description}
                 </p>
               </div>
@@ -204,7 +201,6 @@ export default function Team() {
 
         <div className="relative bg-black">
           <div className="flex flex-col py-20 md:py-40 px-6 md:px-40 md:flex-row md:items-end">
-            {/* Mobile: 3x3 Grid Layout */}
             <div className="grid grid-cols-3 gap-2 w-full mb-8 md:hidden">
               {teamMembers.map((member, index) => (
                 <div
@@ -218,7 +214,6 @@ export default function Team() {
                     fill
                     className="object-cover"
                   />
-                  {/* Active member indicator */}
                   {activeTeamMember === index && (
                     <div className="absolute inset-0 border-2 border-white"></div>
                   )}
@@ -226,7 +221,6 @@ export default function Team() {
               ))}
             </div>
 
-            {/* Desktop: Horizontal Layout */}
             <div className="hidden md:flex md:flex-row gap-1 w-full md:w-3/4 h-[260px] mb-8 md:mb-0 overflow-hidden">
               {teamMembers.map((member, index) => (
                 <div
@@ -246,7 +240,7 @@ export default function Team() {
                     className="object-cover"
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
-                    <p className="text-white text-xs md:text-xs font-power-grotesk">
+                    <p className="text-[#D9D9D9] text-xs md:text-xs font-power-grotesk">
                       {member.name}
                     </p>
                   </div>
@@ -263,15 +257,15 @@ export default function Team() {
                   }`}
                 >
                   <div className="flex flex-row gap-2 items-end">
-                    <h3 className="text-xl md:text-3xl font-power-grotesk mb-2 text-[#F15A24]">
+                    <h3 className="text-xl md:text-3xl font-power-grotesk mb-2 text-[#D9D9D9]">
                       {member.name}
                     </h3>
-                    <p className="font-mono text-xs md:text-base text-white  mb-2">
+                    <p className="font-mono text-xs md:text-base text-[#D9D9D9]  mb-2">
                       {member.designation}
                     </p>
                   </div>
 
-                  <p className="font-mono text-xs md:text-sm text-white/60 max-w-md">
+                  <p className="font-mono text-xs md:text-sm text-[#D9D9D9] max-w-md">
                     {member.description}
                   </p>
                 </div>
