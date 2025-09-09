@@ -41,7 +41,7 @@ export default function Careers() {
         <div className="w-full md:w-1/2">
           <div className="relative w-full aspect-[4/3] overflow-hidden">
             <Image
-              src="/images/careers/meeting.png"
+              src="/images/careers/careers.jpg"
               alt="Team meeting at Double Tap"
               fill
               className="object-cover"
