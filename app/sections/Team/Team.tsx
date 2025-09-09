@@ -14,13 +14,13 @@ export default function Team() {
       id: 1,
       name: "Priyaranjan",
       image: "/images/team/Priya.jpg",
-      description: `A visionary co-founder and Creative Director, Priyaranjan brings a wealth of experience and a bold creative spirit to the company. With formative stints at renowned agencies like Saatchi & Saatchi and Xpand, he has mastered the art of crafting compelling visual narratives and strategic brand solutions. His passion for fresh ideas and fearless approach to creativity keep our engine running. A rare blend of artistic flair and strategic insight, Priyaranjan consistently delivers work that not only meets but surpasses industry benchmarks.`,
+      description: `The big-picture dreamer and our idea machine with a knack for turning “what ifs” into “wow.” From Saatchi & Saatchi to Xpand, he’s mastered the art of storytelling through visuals and vocals. Equal parts strategy and imagination, Priyaranjan is the co-founder whose spark keeps our creativity buzzing.`,
     },
     {
       id: 2,
       name: "Lata",
       image: "/images/team/Lata.jpg",
-      description: `With a law background from HNLU and experience in corporate law, Lata dedicated the past eight years to working with numerous brands & helping them realise their branding potential. Her core competencies lie in brand communications, strategic planning, marketing campaign development, perception management, and brand identity building and development. A highlight of her expertise is crafting compelling brand narratives and effective strategies that help build brand visibility. `,
+      description: `The strategist with a law degree in her pocket and brand stories in her heart. With years of building brands from the ground up, she’s the co-founder who brings clarity, campaigns, and communication that clicks. If it’s about making brands shine, she is already on it.`,
     },
   ];
 
@@ -115,7 +115,6 @@ export default function Team() {
   }, []);
 
   useEffect(() => {
-    // Only animate on desktop
     if (!isMobile) {
       memberRefs.current.forEach((ref, index) => {
         if (ref) {
@@ -128,7 +127,6 @@ export default function Team() {
       });
     }
 
-    // Animate content
     if (contentRef.current) {
       gsap.fromTo(
         contentRef.current,
@@ -164,7 +162,7 @@ export default function Team() {
         <div className="flex flex-col items-center justify-center max-w-6xl mx-auto px-6 md:px-8 py-16 md:pt-20">
           <div className="mb-4">
             <h2 className="text-7xl md:text-8xl font-normal font-power-grotesk bg-gradient-to-r from-[#F15A24] to-[#fdc800] bg-clip-text text-transparent text-center">
-              We
+              we
             </h2>
             <p className="text-lg md:text-xl mt-2 font-power-grotesk text-[#D9D9D9] text-center">
               are a passionate mix of storytellers.
@@ -177,8 +175,8 @@ export default function Team() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 max-w-7xl mx-auto px-6 md:px-8">
           {featuredMembers.map((member) => (
-            <div key={member.id} className="flex flex-col md:flex-row gap-6">
-              <div className="w-full md:w-1/2 aspect-square relative">
+            <div key={member.id} className="flex flex-col md:flex-row md:items-end gap-6">
+              <div className="relative h-[360px] md:h-[520px] w-full md:w-1/2">
                 <Image
                   src={member.image}
                   alt={member.name}
@@ -187,7 +185,7 @@ export default function Team() {
                 />
               </div>
 
-              <div className="w-full md:w-1/2">
+              <div className="w-full md:w-1/2 md:h-[520px] md:flex md:flex-col md:justify-end">
                 <h3 className="text-xl md:text-2xl font-power-grotesk mb-4 bg-gradient-to-r from-[#F15A24] to-[#fdc800] bg-clip-text text-transparent text-[#D9D9D9]">
                   {member.name}
                 </h3>
@@ -256,8 +254,8 @@ export default function Team() {
                     activeTeamMember === index ? "block" : "hidden"
                   }`}
                 >
-                  <div className="flex flex-row gap-2 items-end">
-                    <h3 className="text-xl md:text-3xl font-power-grotesk mb-2 text-[#D9D9D9]">
+                  <div className="flex flex-col">
+                    <h3 className="text-xl md:text-3xl font-power-grotesk text-[#D9D9D9]">
                       {member.name}
                     </h3>
                     <p className="font-mono text-xs md:text-base text-[#D9D9D9]  mb-2">
@@ -265,7 +263,7 @@ export default function Team() {
                     </p>
                   </div>
 
-                  <p className="font-mono text-xs md:text-sm text-[#D9D9D9] max-w-md">
+                  <p className="font-mono text-xs md:text-sm text-[#D9D9D9] max-w-md mt-1">
                     {member.description}
                   </p>
                 </div>
