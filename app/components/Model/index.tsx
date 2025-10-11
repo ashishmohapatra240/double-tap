@@ -50,27 +50,19 @@ export function Model(props: ModelProps) {
 
   return (
     <group ref={group} {...props} dispose={null} scale={viewport.width / 2.25}>
-      {/* <Text 
-        position={[0, 0, -1]} 
-        fontSize={0.5} 
-        color="white" 
-        anchorX="center" 
-        anchorY="middle"
-        font="/font/PowerGrotesk-Regular.ttf"
-      >
-        Double Tap
-      </Text> */}
-      <group name="Scene">
-        <mesh
-          ref={meshRef}
-          name="V2"
-          castShadow
-          receiveShadow
-          geometry={(nodes as GLTFNodes).V2.geometry}
-          rotation={[-0.289, 0, 0]}
-        >
-          <MeshTransmissionMaterial {...materialProps} />
-        </mesh>
+      <group name="Content">
+        <group name="Scene">
+          <mesh
+            ref={meshRef}
+            name="V2"
+            castShadow
+            receiveShadow
+            geometry={(nodes as GLTFNodes).V2.geometry}
+            rotation={[-0.289, 0, 0]}
+          >
+            <MeshTransmissionMaterial {...materialProps} />
+          </mesh>
+        </group>
       </group>
     </group>
   )
