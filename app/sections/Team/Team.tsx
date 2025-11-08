@@ -105,13 +105,23 @@ export default function Team() {
   ];
 
   useEffect(() => {
+    let resizeTimeout: NodeJS.Timeout;
+    
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+      // Debounce resize events
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        setIsMobile(window.innerWidth < 768);
+      }, 150);
     };
 
     handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize, { passive: true });
+    
+    return () => {
+      clearTimeout(resizeTimeout);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   useEffect(() => {
@@ -181,7 +191,10 @@ export default function Team() {
                   src={member.image}
                   alt={member.name}
                   fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
+                  loading="lazy"
+                  quality={85}
                 />
               </div>
 
@@ -210,7 +223,10 @@ export default function Team() {
                     src={member.image}
                     alt={member.name}
                     fill
+                    sizes="33vw"
                     className="object-cover"
+                    loading="lazy"
+                    quality={75}
                   />
                   {activeTeamMember === index && (
                     <div className="absolute inset-0 border-2 border-white"></div>
@@ -235,7 +251,10 @@ export default function Team() {
                     src={member.image}
                     alt={member.name}
                     fill
+                    sizes="10vw"
                     className="object-cover"
+                    loading="lazy"
+                    quality={80}
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
                     <p className="text-[#D9D9D9] text-xs md:text-xs font-power-grotesk">

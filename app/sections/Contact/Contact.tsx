@@ -1,9 +1,11 @@
+'use client';
+
+import { Suspense, useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import { AnimatedLink } from "@/components/AnimatedLink";
 import Button from "@/components/Button/Button";
 import { ModelLogo } from "@/components/Model/ModelLogo";
-import { useState, useEffect } from "react";
 
 export default function Contact() {
   const [modelScale, setModelScale] = useState<[number, number, number]>([
@@ -48,9 +50,11 @@ export default function Contact() {
                 camera={{ position: [0, 0, 8], fov: 35 }}
                 style={{ width: "100%", height: "100%", background: "#000000" }}
               >
-                <ModelLogo scale={modelScale} textSize={textSize} />
-                <directionalLight intensity={2} position={[0, 2, 3]} />
-                <Environment preset="city" />
+                <Suspense fallback={null}>
+                  <ModelLogo scale={modelScale} textSize={textSize} />
+                  <directionalLight intensity={2} position={[0, 2, 3]} />
+                  <Environment preset="city" />
+                </Suspense>
               </Canvas>
             </div>
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl mt-40 sm:mt-48 md:mt-56 lg:mt-64 font-power-grotesk text-white text-center relative z-20">

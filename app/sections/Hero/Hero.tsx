@@ -12,34 +12,20 @@ interface HeroProps {
 
 export default function Hero({ startAnimation, onIntroComplete }: HeroProps) {
   const textRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const animationStartedRef = useRef(false);
+  const hasIntroCompletedRef = useRef(false);
+  const onIntroCompleteRef = useRef(onIntroComplete);
 
   useEffect(() => {
-    if (startAnimation) {
-      gsap.fromTo(
-        textRefs.current,
-        {
-          y: 100,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.4,
-          stagger: 0.15,
-          ease: "power4.inOut",
-          delay: 0.2,
-          onComplete: () => {
-            if (onIntroComplete) {
-              onIntroComplete();
-            }
-          },
-        }
-      );
-    }
+    onIntroCompleteRef.current = onIntroComplete;
+  }, [onIntroComplete]);
+
+  useEffect(() => {
+    const cleanupFunctions: (() => void)[] = [];
 
     textRefs.current.forEach((ref, index) => {
       if (ref) {
-        ref.addEventListener("mouseenter", () => {
+        const handleMouseEnter = () => {
           gsap.to(ref, {
             color: "#F15A24",
             scale: 1.1,
@@ -48,9 +34,9 @@ export default function Hero({ startAnimation, onIntroComplete }: HeroProps) {
             duration: 0.3,
             ease: "power2.out",
           });
-        });
+        };
 
-        ref.addEventListener("mouseleave", () => {
+        const handleMouseLeave = () => {
           gsap.to(
             ref,
             index === 1
@@ -71,6 +57,14 @@ export default function Hero({ startAnimation, onIntroComplete }: HeroProps) {
                   ease: "power2.out",
                 }
           );
+        };
+
+        ref.addEventListener("mouseenter", handleMouseEnter);
+        ref.addEventListener("mouseleave", handleMouseLeave);
+        
+        cleanupFunctions.push(() => {
+          ref.removeEventListener("mouseenter", handleMouseEnter);
+          ref.removeEventListener("mouseleave", handleMouseLeave);
         });
 
         if (index === 1) {
@@ -83,6 +77,46 @@ export default function Hero({ startAnimation, onIntroComplete }: HeroProps) {
         }
       }
     });
+    
+    let animation: gsap.core.Tween | undefined;
+
+    if (startAnimation && !animationStartedRef.current) {
+      const targets = textRefs.current.filter(
+        (item): item is HTMLSpanElement => Boolean(item)
+      );
+
+      if (targets.length) {
+        animationStartedRef.current = true;
+        animation = gsap.fromTo(
+          targets,
+          {
+            y: 100,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.4,
+            stagger: 0.15,
+            ease: "power4.inOut",
+            delay: 0.2,
+            onComplete: () => {
+              if (!hasIntroCompletedRef.current) {
+                hasIntroCompletedRef.current = true;
+                onIntroCompleteRef.current?.();
+              }
+            },
+          }
+        );
+      }
+    }
+
+    return () => {
+      cleanupFunctions.forEach((cleanup) => cleanup());
+      if (animation) {
+        animation.kill();
+      }
+    };
   }, [startAnimation]);
 
   const scrollToSection = (sectionId: string) => {

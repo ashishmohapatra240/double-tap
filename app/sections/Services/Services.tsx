@@ -43,28 +43,21 @@ export default function Services() {
 
   const AnimatedIcon = ({ src }: { src: string }) => {
     const videoRef = useRef<HTMLVideoElement>(null);
-    const shouldStopRef = useRef(false);
 
     const handleMouseEnter = () => {
-      shouldStopRef.current = false;
-      if (videoRef.current) {
-        videoRef.current.play();
-      }
+      const video = videoRef.current;
+      if (!video) return;
+
+      video.currentTime = 0;
+      video.play().catch(() => {});
     };
 
     const handleMouseLeave = () => {
-      shouldStopRef.current = true;
-      if (videoRef.current) {
-        const handleAnimationEnd = () => {
-          if (videoRef.current && shouldStopRef.current) {
-            videoRef.current.pause();
-            videoRef.current.currentTime = 0;
-            videoRef.current.removeEventListener("ended", handleAnimationEnd);
-          }
-        };
+      const video = videoRef.current;
+      if (!video) return;
 
-        videoRef.current.addEventListener("ended", handleAnimationEnd);
-      }
+      video.pause();
+      video.currentTime = 0;
     };
 
     return (
@@ -74,6 +67,13 @@ export default function Services() {
         src={src}
         muted
         playsInline
+        preload="auto"
+        onLoadedData={() => {
+          const video = videoRef.current;
+          if (!video) return;
+          video.pause();
+          video.currentTime = 0;
+        }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       />

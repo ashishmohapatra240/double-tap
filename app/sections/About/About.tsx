@@ -1,9 +1,31 @@
+'use client';
+
+import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Environment } from "@react-three/drei";
+import gsap from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { Model } from "@/components/Model";
 import Button from "@/components/Button/Button";
 
+gsap.registerPlugin(ScrollToPlugin);
+
 export default function About() {
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+
+    if (section) {
+      gsap.to(window, {
+        duration: 1.2,
+        scrollTo: {
+          y: section,
+          offsetY: 0,
+        },
+        ease: "power4.inOut",
+      });
+    }
+  };
+
   return (
     <section className="min-h-screen bg-black flex items-center">
       <div className="max-w-6xl mx-auto px-6 md:px-8 flex flex-col md:flex-row items-center gap-10 md:gap-16">
@@ -16,12 +38,14 @@ export default function About() {
               <Canvas
                 camera={{ position: [0, 0, 5], fov: 45 }}
                 gl={{ alpha: true, antialias: true }}
-                style={{ width: '100%', height: '100%', background: 'transparent' }}
+                style={{ width: "100%", height: "100%", background: "transparent" }}
               >
-                <Model />
-                <directionalLight intensity={2} position={[0, 2, 3]} />
-                <Environment preset="city" />
-                <OrbitControls enableZoom={false} />
+                <Suspense fallback={null}>
+                  <Model />
+                  <directionalLight intensity={2} position={[0, 2, 3]} />
+                  <Environment preset="city" />
+                  <OrbitControls enableZoom={false} />
+                </Suspense>
               </Canvas>
             </div>
           </div>
@@ -48,11 +72,15 @@ export default function About() {
 
           <div className="flex flex-col w-full">
             <Button
-              href="/services"
+              onClick={() => scrollToSection("services")}
               label="Explore our services"
               className="border-b-0"
             />
-            <Button href="/contact" label="Contact us" className="border-b" />
+            <Button
+              onClick={() => scrollToSection("contact")}
+              label="Contact us"
+              className="border-b"
+            />
           </div>
         </div>
       </div>

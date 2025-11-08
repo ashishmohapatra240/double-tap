@@ -2,8 +2,12 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import Button from "@/components/Button/Button";
 import { getRandomReason } from "@/data/reasons";
+
+gsap.registerPlugin(ScrollToPlugin);
 
 export default function Careers() {
   const [currentReason, setCurrentReason] = useState<string | null>(null);
@@ -13,6 +17,21 @@ export default function Careers() {
     const reason = getRandomReason();
     setCurrentReason(reason);
     setShowReason(true);
+  };
+
+  const handleScrollToContact = () => {
+    const contactSection = document.getElementById("contact");
+
+    if (contactSection) {
+      gsap.to(window, {
+        duration: 1.2,
+        scrollTo: {
+          y: contactSection,
+          offsetY: 0,
+        },
+        ease: "power4.inOut",
+      });
+    }
   };
 
   return (
@@ -34,7 +53,7 @@ export default function Careers() {
           </p>
 
           <div className="flex flex-col w-full">
-            <Button href="/contact" label="Contact us" />
+            <Button onClick={handleScrollToContact} label="Contact us" />
           </div>
         </div>
 
