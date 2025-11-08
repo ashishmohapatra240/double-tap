@@ -1,18 +1,50 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import dynamic from 'next/dynamic'
 import Hero from "@/sections/Hero/Hero";
-import About from "@/sections/About/About";
-import Services from "@/sections/Services/Services";
-import Team from "@/sections/Team/Team";
-import BrandsShowcase from "@/sections/BrandsShowcase/BrandsShowcase";
-import Works from "@/sections/Works/Works";
-import Contact from "./sections/Contact/Contact";
-import Address from "@/sections/Address/Address";
-import Careers from "@/sections/Careers/Careers";
 import Preloader from "@/components/Preloader/Preloader";
 import Navbar from "@/components/Navbar/Navbar";
-import Video from './sections/Video/Video';
+
+const Video = dynamic(() => import('./sections/Video/Video'), {
+  loading: () => <div className="h-screen bg-black" />,
+  ssr: false,
+});
+
+const About = dynamic(() => import("@/sections/About/About"), {
+  loading: () => <div className="min-h-screen bg-black" />,
+  ssr: false,
+});
+
+const Services = dynamic(() => import("@/sections/Services/Services"), {
+  loading: () => <div className="min-h-screen bg-black" />,
+});
+
+const Team = dynamic(() => import("@/sections/Team/Team"), {
+  loading: () => <div className="min-h-screen bg-black" />,
+});
+
+const BrandsShowcase = dynamic(() => import("@/sections/BrandsShowcase/BrandsShowcase"), {
+  loading: () => <div className="min-h-[400px] bg-black" />,
+  ssr: false,
+});
+
+const Works = dynamic(() => import("@/sections/Works/Works"), {
+  loading: () => <div className="min-h-screen bg-black" />,
+});
+
+const Careers = dynamic(() => import("@/sections/Careers/Careers"), {
+  loading: () => <div className="min-h-screen bg-black" />,
+});
+
+const Address = dynamic(() => import("@/sections/Address/Address"), {
+  loading: () => <div className="min-h-screen bg-black" />,
+});
+
+const Contact = dynamic(() => import("./sections/Contact/Contact"), {
+  loading: () => <div className="min-h-screen bg-black" />,
+  ssr: false,
+});
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -27,13 +59,27 @@ export default function Home() {
 
   useEffect(() => {
     if (!isLoading) {
-      requestAnimationFrame(() => ScrollTrigger.refresh());
+      // Batch ScrollTrigger refresh for better performance
+      const timeoutId = setTimeout(() => {
+        requestAnimationFrame(() => {
+          ScrollTrigger.refresh();
+        });
+      }, 100);
+      
+      return () => clearTimeout(timeoutId);
     }
   }, [isLoading]);
 
   useEffect(() => {
     if (heroIntroComplete) {
-      requestAnimationFrame(() => ScrollTrigger.refresh());
+      // Batch ScrollTrigger refresh for better performance
+      const timeoutId = setTimeout(() => {
+        requestAnimationFrame(() => {
+          ScrollTrigger.refresh();
+        });
+      }, 100);
+      
+      return () => clearTimeout(timeoutId);
     }
   }, [heroIntroComplete]);
 

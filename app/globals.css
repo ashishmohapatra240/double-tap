@@ -10,6 +10,13 @@
 body {
   color: rgb(var(--foreground-rgb));
   background-color: black;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeSpeed;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
 @layer utilities {
