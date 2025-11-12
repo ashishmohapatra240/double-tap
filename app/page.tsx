@@ -1,10 +1,19 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import gsap from 'gsap'
 import dynamic from 'next/dynamic'
 import Hero from "@/sections/Hero/Hero";
 import Preloader from "@/components/Preloader/Preloader";
 import Navbar from "@/components/Navbar/Navbar";
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ 
+    limitCallbacks: true,
+    syncInterval: 150,
+  });
+}
 
 const Video = dynamic(() => import('./sections/Video/Video'), {
   loading: () => <div className="h-screen bg-black" />,
@@ -98,19 +107,21 @@ export default function Home() {
           </div>
 
           {heroIntroComplete && (
-            <div id="video" className="relative -mt-[15vh]">
-              <Video isMuted={isMuted} />
-            </div>
-          )}
+            <>
+              <div id="video" className="relative -mt-[15vh]">
+                <Video isMuted={isMuted} />
+              </div>
 
-          <div id="about"><About /></div>
-          <div id="services"><Services /></div>
-          <div id="team"><Team /></div>
-          <BrandsShowcase />
-          <div id="works"><Works /></div>
-          <div id="careers"><Careers /></div>
-          <div id="address"><Address /></div>
-          <div id="contact"><Contact /></div>
+              <div id="about"><About /></div>
+              <div id="services"><Services /></div>
+              <div id="team"><Team /></div>
+              <BrandsShowcase />
+              <div id="works"><Works /></div>
+              <div id="careers"><Careers /></div>
+              <div id="address"><Address /></div>
+              <div id="contact"><Contact /></div>
+            </>
+          )}
         </main>
       )}
     </>
