@@ -181,8 +181,8 @@ export default function Navbar({
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center mx-auto py-8 px-6 lg:px-20">
-      <div ref={logoRef} className="opacity-0">
+    <div className="fixed top-0 left-0 right-0 z-[100] flex justify-between items-center mx-auto py-8 px-6 lg:px-20">
+      <div ref={logoRef} className="opacity-0 relative z-[110]">
         <Link href="/">
           <Image
             src="/images/logo.png"
@@ -194,7 +194,7 @@ export default function Navbar({
         </Link>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 relative z-[110]">
         <motion.button
           ref={muteButtonRef}
           className="focus:outline-none relative w-6 h-6 opacity-0"
@@ -314,7 +314,7 @@ export default function Navbar({
         </motion.button>
       </div>
 
-      <div ref={menuRef} className="fixed inset-0 bg-[#FF5C28] z-40">
+      <div ref={menuRef} className="fixed inset-0 bg-[#FF5C28] z-[90] transform -translate-y-full will-change-transform">
         <div className="flex flex-col items-center justify-center h-full">
           <nav className="text-center" ref={navItemsRef}>
             {menuItems.map((item, index) => (

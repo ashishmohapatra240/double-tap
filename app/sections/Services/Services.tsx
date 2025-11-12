@@ -7,64 +7,57 @@ export default function Services() {
       title: "Brand Communication",
       icon: "/icons/service/Direct message (Black Bg).mp4",
       description:
-        "Your brand needs a voice, one that speaks with clarity, confidence, and purpose. We craft communication strategies that help your brand connect, resonate, and stay memorable.",
+        "We give your brand a voice that doesn’t mumble. Clear, confident, and unforgettable, so your audience can’t help but fall in love.",
     },
     {
       title: "Brand Identity",
       icon: "/icons/service/Paint Roller (Black Bg).mp4",
       description:
-        "Your brand's first impression starts here. We create distinct, cohesive identities that reflect your brand's vision and build lasting recognition.",
+        "First impressions matter. We craft looks so sharp, your brand won’t just get noticed, it’ll get remembered (and maybe even stalked).",
     },
     {
       title: "Brand Strategy",
       icon: "/icons/service/Verified (Black Bg).mp4",
       description:
-        "Great branding begins with great thinking. We dive deep into insights, positioning, and purpose to shape a strategy that sets your brand apart and ahead. ",
+        "Behind every “wow” brand is some solid brainwork. We dig deep, connect the dots, and plot your brand’s master plan to stay two steps ahead.",
     },
     {
       title: "Social Media",
       icon: "/icons/service/Color swatches (Black Bg).mp4",
       description:
-        "We turn scrolls into stops. With platform-specific content, engaging storytelling, and timely trends, we build digital presence that grows your community and brand love.",
+        "We turn endless scrolling into “Wait, what’s this?” moments. Trend-savvy, story-rich, and community-growing—your brand’s hype squad online.",
     },
     {
       title: "Design",
       icon: "/icons/service/Blend (Black Bg).mp4",
       description:
-        "Design is how your brand is seen and felt. From visual systems to packaging, we design with intention, impact, and aesthetics that work across every touchpoint.",
+        "From logos to packaging to the tiny details that make people go “Whoah,” our design makes sure your brand is not just seen but felt everywhere.",
     },
     {
       title: "TVC Production",
       icon: "/icons/service/Video Camera (Black bg).mp4",
       description:
-        "From idea to screen, we produce films that move people. Whether it's a 30-second commercial or branded content, our team delivers stories that stick visually and emotionally.",
+        "Lights, camera, brand action! Whether it’s a 30-second stunner or binge-worthy branded content, we create films people actually want to watch.",
     },
   ];
 
   const AnimatedIcon = ({ src }: { src: string }) => {
     const videoRef = useRef<HTMLVideoElement>(null);
-    const shouldStopRef = useRef(false);
 
     const handleMouseEnter = () => {
-      shouldStopRef.current = false;
-      if (videoRef.current) {
-        videoRef.current.play();
-      }
+      const video = videoRef.current;
+      if (!video) return;
+
+      video.currentTime = 0;
+      video.play().catch(() => {});
     };
 
     const handleMouseLeave = () => {
-      shouldStopRef.current = true;
-      if (videoRef.current) {
-        const handleAnimationEnd = () => {
-          if (videoRef.current && shouldStopRef.current) {
-            videoRef.current.pause();
-            videoRef.current.currentTime = 0;
-            videoRef.current.removeEventListener("ended", handleAnimationEnd);
-          }
-        };
+      const video = videoRef.current;
+      if (!video) return;
 
-        videoRef.current.addEventListener("ended", handleAnimationEnd);
-      }
+      video.pause();
+      video.currentTime = 0;
     };
 
     return (
@@ -74,6 +67,13 @@ export default function Services() {
         src={src}
         muted
         playsInline
+        preload="auto"
+        onLoadedData={() => {
+          const video = videoRef.current;
+          if (!video) return;
+          video.pause();
+          video.currentTime = 0;
+        }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       />

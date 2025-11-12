@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useRef, useEffect } from 'react';
 import { useGLTF, useAnimations, MeshTransmissionMaterial, Text } from '@react-three/drei';
 import { DoubleSide, Group, Mesh } from 'three';

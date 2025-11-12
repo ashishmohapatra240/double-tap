@@ -50,7 +50,7 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
       right: 0,
       bottom: 0,
       backgroundColor: "#F15A24",
-      zIndex: 50,
+      zIndex: 60,
     });
 
     gsap.set(rectangleRef.current, {
@@ -117,7 +117,7 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
   }, [onComplete, greetings]);
 
   return (
-    <div ref={containerRef}>
+    <div ref={containerRef} className="fixed inset-0 z-[60]" style={{ backgroundColor: "#F15A24" }}>
       <div ref={rectangleRef}></div>
       <div ref={textRef}>{currentGreeting}</div>
     </div>

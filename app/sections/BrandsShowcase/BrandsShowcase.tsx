@@ -29,7 +29,10 @@ export default function BrandsShowcase() {
                   src={brand.logo}
                   alt={brand.name}
                   fill
+                  sizes="128px"
                   className="object-contain"
+                  loading="lazy"
+                  quality={85}
                 />
               </div>
             ))}

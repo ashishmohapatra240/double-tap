@@ -12,23 +12,41 @@ export default function Works() {
 
   useEffect(() => {
     let ticking = false;
+    let lastX = 0;
+    let lastY = 0;
+    
     const mouseMove = (e: MouseEvent) => {
+      const deltaX = Math.abs(e.clientX - lastX);
+      const deltaY = Math.abs(e.clientY - lastY);
+      
+      if (deltaX < 5 && deltaY < 5) return;
+      
+      lastX = e.clientX;
+      lastY = e.clientY;
+      
       if (!ticking) {
         window.requestAnimationFrame(() => {
           setHoveredImages((prev) => {
+            // Only update if there are active hovers
+            if (Object.keys(prev).length === 0) {
+              ticking = false;
+              return prev;
+            }
+            
             const newState = { ...prev };
             Object.keys(newState).forEach((key) => {
-              newState[Number(key)] = { x: e.clientX, y: e.clientY };
+              newState[Number(key)] = { x: lastX, y: lastY };
             });
+            ticking = false;
             return newState;
           });
-          ticking = false;
         });
         ticking = true;
       }
     };
 
-    window.addEventListener("mousemove", mouseMove);
+    // Use passive event listener for better performance
+    window.addEventListener("mousemove", mouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", mouseMove);
   }, []);
 
@@ -55,23 +73,21 @@ export default function Works() {
             <motion.div
               className="fixed z-50 pointer-events-none"
               style={{
-                left: `${position.x - 100}px`,
-                top: `${position.y - 100}px`,
+                left: `${position.x}px`,
+                top: `${position.y + 200}px`,
+                transform: 'translate(-260px, -120px)',
               }}
               initial={{
-                x: 40,
                 scale: 0.4,
                 opacity: 0,
                 rotate: -6,
               }}
               animate={{
-                x: 0,
                 scale: 1,
                 opacity: 1,
                 rotate: -6,
               }}
               exit={{
-                x: 100,
                 scale: 0.4,
                 opacity: 0,
                 rotate: -6,
@@ -87,29 +103,29 @@ export default function Works() {
                 className="object-cover border-2 border-white"
                 width={240}
                 height={240}
+                loading="eager"
+                quality={80}
               />
             </motion.div>
 
             <motion.div
               className="fixed z-50 pointer-events-none"
               style={{
-                left: `${position.x + 100}px`,
-                top: `${position.y - 40}px`,
+                left: `${position.x +200}px`,
+                top: `${position.y + 200}px`,
+                transform: 'translate(20px, -120px)',
               }}
               initial={{
-                x: -40,
                 scale: 0.4,
                 opacity: 0,
                 rotate: 6,
               }}
               animate={{
-                x: 0,
                 scale: 1,
                 opacity: 1,
                 rotate: 6,
               }}
               exit={{
-                x: -100,
                 scale: 0.4,
                 opacity: 0,
                 rotate: 6,
@@ -126,6 +142,8 @@ export default function Works() {
                 className="object-cover border-2 border-white"
                 width={240}
                 height={240}
+                loading="eager"
+                quality={80}
               />
             </motion.div>
           </React.Fragment>

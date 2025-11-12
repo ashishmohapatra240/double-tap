@@ -10,6 +10,27 @@
 body {
   color: rgb(var(--foreground-rgb));
   background-color: black;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeSpeed;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+section {
+  contain: layout style paint;
+  content-visibility: auto;
+}
+
+section:first-of-type {
+  content-visibility: visible;
+}
+
+.transform-gpu {
+  transform: translateZ(0);
+  will-change: auto;
 }
 
 @layer utilities {

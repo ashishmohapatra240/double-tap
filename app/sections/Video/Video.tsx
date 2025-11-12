@@ -1,79 +1,157 @@
 "use client";
-import React, { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
+import React, { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useIntersectionObserver } from "@/utils/useIntersectionObserver";
 gsap.registerPlugin(ScrollTrigger);
 
 interface VideoProps {
   isMuted?: boolean;
+  src?: string;
+  poster?: string;
 }
 
-const Video = ({ isMuted = false }: VideoProps) => {
+const Video = ({
+  isMuted = true,
+  src = "/videos/Hero.mp4",
+  poster = "/videos/hero-poster.jpg",
+}: VideoProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const handleVideoLoad = () => {
-    console.log('Video loaded successfully');
-  };
-
-  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement>) => {
-    console.error('Video failed to load:', e);
-  };
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const enterAnimationRef = useRef<gsap.core.Tween | null>(null);
+  const scrollAnimRef = useRef<gsap.core.Tween | null>(null);
+  const [videoIntersectionRef, isVideoVisible] = useIntersectionObserver({
+    threshold: 0,
+    rootMargin: '100px',
+    freezeOnceVisible: true,
+  });
 
   useEffect(() => {
-    if (containerRef.current && videoRef.current) {
-      gsap.set(containerRef.current, {
-        width: '85%',
-        height: '50vh',
-        position: 'relative',
-        top: '0vh', 
-        left: '50%',
-        transform: 'translateX(-50%)',
-        zIndex: 10,
-      });
-
-      gsap.to(containerRef.current, {
-        width: '100%',
-        height: '100vh',
-        top: 0,
-        left: '0%',
-        transform: 'translateX(0%)',
-        duration: 1,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 80%',
-          end: 'bottom 20%',
-          scrub: 1,
-        },
-      });
+    if (isVideoVisible) {
+      setShouldLoadVideo(true);
     }
+  }, [isVideoVisible]);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    // Set initial state without permanent will-change
+    gsap.set(el, {
+      width: "85%",
+      height: "100svh",
+      marginInline: "auto",
+      position: "relative",
+      zIndex: 1,
+      opacity: 0,
+      y: 80,
+    });
+
+    enterAnimationRef.current?.kill();
+    enterAnimationRef.current = gsap.to(el, {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: "power4.out",
+    });
+
+    scrollAnimRef.current?.kill();
+    scrollAnimRef.current = gsap.to(el, {
+      width: "100%",
+      ease: "power2.out",
+      duration: 1,
+      scrollTrigger: {
+        trigger: el,
+        start: "top 90%",
+        end: "top 10%",
+        scrub: 0.5,
+        invalidateOnRefresh: false,
+        onEnter: () => {
+          el.style.willChange = 'width';
+        },
+        onLeave: () => {
+          el.style.willChange = 'auto';
+        },
+        onEnterBack: () => {
+          el.style.willChange = 'width';
+        },
+        onLeaveBack: () => {
+          el.style.willChange = 'auto';
+        },
+      },
+    });
+
+    return () => {
+      scrollAnimRef.current?.kill();
+      const triggers = ScrollTrigger.getAll();
+      triggers.forEach((st) => {
+        if (st.trigger === el) {
+          st.kill();
+        }
+      });
+      enterAnimationRef.current?.kill();
+      enterAnimationRef.current = null;
+      scrollAnimRef.current = null;
+      el.style.willChange = 'auto';
+    };
   }, []);
 
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v || !shouldLoadVideo) return;
+    
+    v.muted = isMuted;
+    
+    const tryPlay = () => {
+      v.play().catch(() => {});
+    };
+    
+    if (v.readyState >= 3) {
+      tryPlay();
+    } else {
+      v.addEventListener("canplay", tryPlay, { once: true });
+    }
+    
+    return () => {
+      v.removeEventListener("canplay", tryPlay);
+    };
+  }, [isMuted, shouldLoadVideo]);
+
   return (
-    <div 
-      ref={containerRef}
-      className="relative overflow-hidden"
-      style={{ 
-        boxShadow: '0 -10px 30px rgba(0, 0, 0, 0.5)',
-        minHeight: '50vh',
-        width: '85%',
-        margin: '0 auto',
+    <div
+      ref={(node) => {
+        if (node) {
+          containerRef.current = node;
+          (videoIntersectionRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        }
       }}
+      className="relative overflow-hidden"
+      style={{ boxShadow: "0 -10px 30px rgba(0,0,0,0.5)" }}
     >
-      <video 
-        ref={videoRef}
-        src="/videos/Hero.mp4" 
-        autoPlay 
-        loop 
-        muted={isMuted}
-        playsInline
-        onLoadedData={handleVideoLoad}
-        onError={handleVideoError}
-        className='w-full h-full object-cover' 
-        style={{ minHeight: '100%', minWidth: '100%' }}
-      />
+      {shouldLoadVideo ? (
+        <video
+          ref={videoRef}
+          src={src}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          crossOrigin="anonymous"
+          poster={poster}
+          className="w-full h-full object-cover"
+        />
+      ) : (
+        <div 
+          className="w-full h-full bg-black"
+          style={{ 
+            backgroundImage: poster ? `url(${poster})` : 'none',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        />
+      )}
     </div>
   );
 };
