@@ -69,10 +69,10 @@ export default function Team() {
     },
     {
       id: 7,
-      name: "Justin",
-      designation: "3D artist and CGI Editor ",
-      image: "/images/team/Justin.jpg",
-      description: `Breathes life into the unreal. Camera loves him almost as much as his renders do.`,
+      name: "Suraj",
+      designation: "Graphic Designer",
+      image: "/images/team/Suraj.jpg",
+      description: `Keeps his designs sharp and his humour sharper. Off duty, he's either glued to the next episode or the next over.`,
     },
     {
       id: 8,
@@ -90,10 +90,10 @@ export default function Team() {
     },
     {
       id: 10,
-      name: "Shuvam",
-      designation: "Project Manager Associate",
-      image: "/images/team/Shuvam.jpg",
-      description: `Can smell biryani from two floors up. Always first to catch a trend or a deadline. Currently interning and definitely eating. `,
+      name: "Subrat",
+      designation: "Video Editor",
+      image: "/images/team/Subrat.jpg",
+      description: `Never in a hurry, never not organised. Edits so clean, they almost breathe.`,
     },
     {
       id: 11,
@@ -106,7 +106,7 @@ export default function Team() {
 
   useEffect(() => {
     let resizeTimeout: NodeJS.Timeout;
-    
+
     const handleResize = () => {
       // Debounce resize events
       clearTimeout(resizeTimeout);
@@ -117,7 +117,7 @@ export default function Team() {
 
     handleResize();
     window.addEventListener("resize", handleResize, { passive: true });
-    
+
     return () => {
       clearTimeout(resizeTimeout);
       window.removeEventListener("resize", handleResize);
@@ -185,7 +185,10 @@ export default function Team() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 max-w-7xl mx-auto px-6 md:px-8">
           {featuredMembers.map((member) => (
-            <div key={member.id} className="flex flex-col md:flex-row md:items-end gap-6">
+            <div
+              key={member.id}
+              className="flex flex-col md:flex-row md:items-end gap-6"
+            >
               <div className="relative h-[360px] md:h-[520px] w-full md:w-1/2">
                 <Image
                   src={member.image}
