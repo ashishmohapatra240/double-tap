@@ -34,15 +34,16 @@ export default function LenisProvider({ children }: LenisProviderProps) {
         <ReactLenis
             root
             options={{
-                lerp: 0.05, // Slightly higher for better performance
-                duration: 1.5, // Reduced duration
+                lerp: 0.08,
+                duration: 1.2,
                 orientation: 'vertical',
                 gestureOrientation: 'vertical',
                 smoothWheel: true,
-                wheelMultiplier: 1, // Increased for more responsive feel
+                wheelMultiplier: 1,
                 touchMultiplier: 1.5,
                 infinite: false,
                 autoResize: true,
+                syncTouch: true,
             }}
         >
             {children}
