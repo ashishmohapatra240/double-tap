@@ -18,6 +18,7 @@ interface ModelProps {
   position?: [number, number, number]
   rotation?: [number, number, number]
   scale?: number | [number, number, number]
+  isVisible?: boolean
 }
 
 // Detect if device is low-end
@@ -41,13 +42,14 @@ const isLowEndDevice = () => {
 };
 
 export function Model(props: ModelProps) {
+  const { isVisible: isVisibleProp = true, ...restProps } = props;
   const group = useRef<Group>(null!)
   const meshRef = useRef<Mesh>(null!)
   const { nodes, animations } = useGLTF('/models/Astriks.glb')
   useAnimations(animations, group)
-  const { viewport } = useThree()
+  const { viewport, invalidate } = useThree()
   
-  const [isVisible, setIsVisible] = useState(true);
+  const [isTabVisible, setIsTabVisible] = useState(true);
   const [performanceMode, setPerformanceMode] = useState(false);
   
   useEffect(() => {
@@ -57,7 +59,7 @@ export function Model(props: ModelProps) {
   // Pause animation when tab is not visible
   useEffect(() => {
     const handleVisibilityChange = () => {
-      setIsVisible(!document.hidden);
+      setIsTabVisible(!document.hidden);
     };
     
     document.addEventListener('visibilitychange', handleVisibilityChange);
@@ -90,7 +92,7 @@ export function Model(props: ModelProps) {
   const throttleFrames = performanceMode ? 3 : 1;
   
   useFrame(() => {
-    if (!isVisible || !meshRef.current) return;
+    if (!isVisibleProp || !isTabVisible || !meshRef.current) return;
     
     frameCount.current++;
     if (frameCount.current % throttleFrames === 0) {
@@ -98,10 +100,13 @@ export function Model(props: ModelProps) {
       meshRef.current.rotation.y += speed;
       meshRef.current.rotation.x += speed;
     }
+    
+    // Always invalidate when animating for smooth rotation with demand frameloop
+    invalidate();
   })
 
   return (
-    <group ref={group} {...props} dispose={null} scale={viewport.width / 2.25}>
+    <group ref={group} {...restProps} dispose={null} scale={viewport.width / 2.25}>
       <group name="Content">
         <group name="Scene">
           <mesh
