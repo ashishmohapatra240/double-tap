@@ -19,6 +19,20 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+section {
+  contain: layout style paint;
+  content-visibility: auto;
+}
+
+section:first-of-type {
+  content-visibility: visible;
+}
+
+.transform-gpu {
+  transform: translateZ(0);
+  will-change: auto;
+}
+
 @layer utilities {
   .font-power-grotesk {
     font-family: var(--font-power-grotesk);
