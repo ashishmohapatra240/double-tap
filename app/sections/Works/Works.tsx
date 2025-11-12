@@ -73,23 +73,21 @@ export default function Works() {
             <motion.div
               className="fixed z-50 pointer-events-none"
               style={{
-                left: `${position.x - 100}px`,
-                top: `${position.y - 100}px`,
+                left: `${position.x}px`,
+                top: `${position.y + 200}px`,
+                transform: 'translate(-260px, -120px)',
               }}
               initial={{
-                x: 40,
                 scale: 0.4,
                 opacity: 0,
                 rotate: -6,
               }}
               animate={{
-                x: 0,
                 scale: 1,
                 opacity: 1,
                 rotate: -6,
               }}
               exit={{
-                x: 100,
                 scale: 0.4,
                 opacity: 0,
                 rotate: -6,
@@ -113,23 +111,21 @@ export default function Works() {
             <motion.div
               className="fixed z-50 pointer-events-none"
               style={{
-                left: `${position.x + 100}px`,
-                top: `${position.y - 40}px`,
+                left: `${position.x +200}px`,
+                top: `${position.y + 200}px`,
+                transform: 'translate(20px, -120px)',
               }}
               initial={{
-                x: -40,
                 scale: 0.4,
                 opacity: 0,
                 rotate: 6,
               }}
               animate={{
-                x: 0,
                 scale: 1,
                 opacity: 1,
                 rotate: 6,
               }}
               exit={{
-                x: -100,
                 scale: 0.4,
                 opacity: 0,
                 rotate: 6,
