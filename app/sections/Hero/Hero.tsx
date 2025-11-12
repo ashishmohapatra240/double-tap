@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
@@ -15,52 +15,84 @@ export default function Hero({ startAnimation, onIntroComplete }: HeroProps) {
   const animationStartedRef = useRef(false);
   const hasIntroCompletedRef = useRef(false);
   const onIntroCompleteRef = useRef(onIntroComplete);
+  const rafIdRef = useRef<number | null>(null);
 
   useEffect(() => {
     onIntroCompleteRef.current = onIntroComplete;
   }, [onIntroComplete]);
+
+  // Memoized event handler factory with RAF throttling
+  const createMouseEnterHandler = useCallback((ref: HTMLSpanElement) => {
+    return () => {
+      if (rafIdRef.current) return; // Prevent stacking
+      
+      rafIdRef.current = requestAnimationFrame(() => {
+        // Add will-change only during interaction
+        ref.style.willChange = 'transform, color, font-weight';
+        
+        gsap.to(ref, {
+          color: "#F15A24",
+          scale: 1.1,
+          rotation: 3,
+          fontWeight: 600,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+        
+        rafIdRef.current = null;
+      });
+    };
+  }, []);
+
+  const createMouseLeaveHandler = useCallback((ref: HTMLSpanElement, index: number) => {
+    return () => {
+      if (rafIdRef.current) return;
+      
+      rafIdRef.current = requestAnimationFrame(() => {
+        gsap.to(
+          ref,
+          index === 1
+            ? {
+                color: "#F15A24",
+                scale: 1,
+                rotation: 3,
+                fontWeight: 700,
+                duration: 0.3,
+                ease: "power2.out",
+                onComplete: () => {
+                  // Remove will-change after animation
+                  ref.style.willChange = 'auto';
+                }
+              }
+            : {
+                color: "#FFFFFF",
+                scale: 1,
+                rotation: 0,
+                fontWeight: 400,
+                duration: 0.3,
+                ease: "power2.out",
+                onComplete: () => {
+                  // Remove will-change after animation
+                  ref.style.willChange = 'auto';
+                }
+              }
+        );
+        
+        rafIdRef.current = null;
+      });
+    };
+  }, []);
 
   useEffect(() => {
     const cleanupFunctions: (() => void)[] = [];
 
     textRefs.current.forEach((ref, index) => {
       if (ref) {
-        const handleMouseEnter = () => {
-          gsap.to(ref, {
-            color: "#F15A24",
-            scale: 1.1,
-            rotation: 3,
-            fontWeight: 600,
-            duration: 0.3,
-            ease: "power2.out",
-          });
-        };
+        const handleMouseEnter = createMouseEnterHandler(ref);
+        const handleMouseLeave = createMouseLeaveHandler(ref, index);
 
-        const handleMouseLeave = () => {
-          gsap.to(
-            ref,
-            index === 1
-              ? {
-                  color: "#F15A24",
-                  scale: 1,
-                  rotation: 3,
-                  fontWeight: 700,
-                  duration: 0.3,
-                  ease: "power2.out",
-                }
-              : {
-                  color: "#FFFFFF",
-                  scale: 1,
-                  rotation: 0,
-                  fontWeight: 400,
-                  duration: 0.3,
-                  ease: "power2.out",
-                }
-          );
-        };
-
-        ref.addEventListener("mouseenter", handleMouseEnter);
-        ref.addEventListener("mouseleave", handleMouseLeave);
+        ref.addEventListener("mouseenter", handleMouseEnter, { passive: true });
+        ref.addEventListener("mouseleave", handleMouseLeave, { passive: true });
         
         cleanupFunctions.push(() => {
           ref.removeEventListener("mouseenter", handleMouseEnter);
@@ -116,8 +148,12 @@ export default function Hero({ startAnimation, onIntroComplete }: HeroProps) {
       if (animation) {
         animation.kill();
       }
+      // Cancel any pending RAF
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
     };
-  }, [startAnimation]);
+  }, [startAnimation, createMouseEnterHandler, createMouseLeaveHandler]);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -143,7 +179,7 @@ export default function Hero({ startAnimation, onIntroComplete }: HeroProps) {
                 textRefs.current[0] = el;
               }
             }}
-            className="cursor-pointer inline-block translate-y-[100px] opacity-0"
+            className="cursor-pointer inline-block translate-y-[100px] opacity-0 transform-gpu"
             onClick={() => scrollToSection("address")}
           >
             at
@@ -154,7 +190,7 @@ export default function Hero({ startAnimation, onIntroComplete }: HeroProps) {
                 textRefs.current[1] = el;
               }
             }}
-            className="cursor-pointer inline-block translate-y-[100px] opacity-0 text-[#F15A24] rotate-3"
+            className="cursor-pointer inline-block translate-y-[100px] opacity-0 text-[#F15A24] rotate-3 transform-gpu"
             onClick={() => scrollToSection("about")}
           >
             double tap
@@ -165,7 +201,7 @@ export default function Hero({ startAnimation, onIntroComplete }: HeroProps) {
                 textRefs.current[2] = el;
               }
             }}
-            className="cursor-pointer inline-block translate-y-[100px] opacity-0"
+            className="cursor-pointer inline-block translate-y-[100px] opacity-0 transform-gpu"
             onClick={() => scrollToSection("team")}
           >
             we
@@ -176,7 +212,7 @@ export default function Hero({ startAnimation, onIntroComplete }: HeroProps) {
                 textRefs.current[3] = el;
               }
             }}
-            className="cursor-pointer inline-block translate-y-[100px] opacity-0"
+            className="cursor-pointer inline-block translate-y-[100px] opacity-0 transform-gpu"
             onClick={() => scrollToSection("services")}
           >
             let
@@ -187,7 +223,7 @@ export default function Hero({ startAnimation, onIntroComplete }: HeroProps) {
                 textRefs.current[4] = el;
               }
             }}
-            className="cursor-pointer inline-block translate-y-[100px] opacity-0"
+            className="cursor-pointer inline-block translate-y-[100px] opacity-0 transform-gpu"
             onClick={() => scrollToSection("careers")}
           >
             our
@@ -198,7 +234,7 @@ export default function Hero({ startAnimation, onIntroComplete }: HeroProps) {
                 textRefs.current[5] = el;
               }
             }}
-            className="cursor-pointer inline-block translate-y-[100px] opacity-0"
+            className="cursor-pointer inline-block translate-y-[100px] opacity-0 transform-gpu"
             onClick={() => scrollToSection("works")}
           >
             work
@@ -209,7 +245,7 @@ export default function Hero({ startAnimation, onIntroComplete }: HeroProps) {
                 textRefs.current[6] = el;
               }
             }}
-            className="cursor-pointer inline-block translate-y-[100px] opacity-0"
+            className="cursor-pointer inline-block translate-y-[100px] opacity-0 transform-gpu"
             onClick={() => scrollToSection("contact")}
           >
             speak
