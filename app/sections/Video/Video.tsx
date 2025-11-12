@@ -20,9 +20,10 @@ const Video = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const enterAnimationRef = useRef<gsap.core.Tween | null>(null);
+  const scrollAnimRef = useRef<gsap.core.Tween | null>(null);
   const [videoIntersectionRef, isVideoVisible] = useIntersectionObserver({
     threshold: 0,
-    rootMargin: '200px',
+    rootMargin: '100px',
     freezeOnceVisible: true,
   });
 
@@ -36,13 +37,13 @@ const Video = ({
     const el = containerRef.current;
     if (!el) return;
 
+    // Set initial state without permanent will-change
     gsap.set(el, {
       width: "85%",
       height: "100svh",
       marginInline: "auto",
       position: "relative",
       zIndex: 1,
-      willChange: "width",
       opacity: 0,
       y: 80,
     });
@@ -55,7 +56,8 @@ const Video = ({
       ease: "power4.out",
     });
 
-    const anim = gsap.to(el, {
+    scrollAnimRef.current?.kill();
+    scrollAnimRef.current = gsap.to(el, {
       width: "100%",
       ease: "power2.out",
       duration: 1,
@@ -63,12 +65,25 @@ const Video = ({
         trigger: el,
         start: "top 90%",
         end: "top 10%",
-        scrub: 1,
+        scrub: 0.5,
+        invalidateOnRefresh: false,
+        onEnter: () => {
+          el.style.willChange = 'width';
+        },
+        onLeave: () => {
+          el.style.willChange = 'auto';
+        },
+        onEnterBack: () => {
+          el.style.willChange = 'width';
+        },
+        onLeaveBack: () => {
+          el.style.willChange = 'auto';
+        },
       },
     });
 
     return () => {
-      anim.kill();
+      scrollAnimRef.current?.kill();
       const triggers = ScrollTrigger.getAll();
       triggers.forEach((st) => {
         if (st.trigger === el) {
@@ -77,6 +92,8 @@ const Video = ({
       });
       enterAnimationRef.current?.kill();
       enterAnimationRef.current = null;
+      scrollAnimRef.current = null;
+      el.style.willChange = 'auto';
     };
   }, []);
 
