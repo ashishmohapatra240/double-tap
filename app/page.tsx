@@ -67,29 +67,14 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (!isLoading) {
-      // Batch ScrollTrigger refresh for better performance
-      const timeoutId = setTimeout(() => {
-        requestAnimationFrame(() => {
-          ScrollTrigger.refresh();
-        });
-      }, 100);
-      
-      return () => clearTimeout(timeoutId);
-    }
-  }, [isLoading]);
-
-  useEffect(() => {
-    if (heroIntroComplete) {
-      // Batch ScrollTrigger refresh for better performance
-      const timeoutId = setTimeout(() => {
-        requestAnimationFrame(() => {
-          ScrollTrigger.refresh();
-        });
-      }, 100);
-      
-      return () => clearTimeout(timeoutId);
-    }
+    if (!heroIntroComplete) return;
+    // Single refresh after all dynamic sections have mounted
+    const timeoutId = setTimeout(() => {
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+      });
+    }, 300);
+    return () => clearTimeout(timeoutId);
   }, [heroIntroComplete]);
 
   return (

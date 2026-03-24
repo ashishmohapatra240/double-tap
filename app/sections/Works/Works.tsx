@@ -1,167 +1,120 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { works } from "@/data/works";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Works() {
-  const [hoveredImages, setHoveredImages] = useState<{
-    [key: number]: { x: number; y: number };
-  }>({});
+  const [hoveredIndices, setHoveredIndices] = useState<Set<number>>(new Set());
+  const mousePositionRef = useRef({ x: 0, y: 0 });
+  const overlayRefsLeft = useRef<Map<number, HTMLDivElement>>(new Map());
+  const overlayRefsRight = useRef<Map<number, HTMLDivElement>>(new Map());
 
   useEffect(() => {
     let ticking = false;
-    let lastX = 0;
-    let lastY = 0;
-    
+
     const mouseMove = (e: MouseEvent) => {
-      const deltaX = Math.abs(e.clientX - lastX);
-      const deltaY = Math.abs(e.clientY - lastY);
-      
-      if (deltaX < 5 && deltaY < 5) return;
-      
-      lastX = e.clientX;
-      lastY = e.clientY;
-      
+      mousePositionRef.current = { x: e.clientX, y: e.clientY };
+
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          setHoveredImages((prev) => {
-            // Only update if there are active hovers
-            if (Object.keys(prev).length === 0) {
-              ticking = false;
-              return prev;
-            }
-            
-            const newState = { ...prev };
-            Object.keys(newState).forEach((key) => {
-              newState[Number(key)] = { x: lastX, y: lastY };
-            });
-            ticking = false;
-            return newState;
+          const { x, y } = mousePositionRef.current;
+          overlayRefsLeft.current.forEach((el) => {
+            el.style.left = `${x}px`;
+            el.style.top = `${y + 200}px`;
           });
+          overlayRefsRight.current.forEach((el) => {
+            el.style.left = `${x + 200}px`;
+            el.style.top = `${y + 200}px`;
+          });
+          ticking = false;
         });
         ticking = true;
       }
     };
 
-    // Use passive event listener for better performance
     window.addEventListener("mousemove", mouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", mouseMove);
   }, []);
 
   const handleMouseEnter = (index: number, e: React.MouseEvent) => {
-    setHoveredImages((prev) => ({
-      ...prev,
-      [index]: { x: e.clientX, y: e.clientY },
-    }));
+    mousePositionRef.current = { x: e.clientX, y: e.clientY };
+    setHoveredIndices((prev) => new Set(prev).add(index));
   };
 
   const handleMouseLeave = (index: number) => {
-    setHoveredImages((prev) => {
-      const newState = { ...prev };
-      delete newState[index];
-      return newState;
+    setHoveredIndices((prev) => {
+      const next = new Set(prev);
+      next.delete(index);
+      return next;
     });
   };
 
   return (
     <section className="py-20 bg-black text-white relative">
       <AnimatePresence>
-        {Object.entries(hoveredImages).map(([index, position]) => (
-          <React.Fragment key={index}>
-            <motion.div
-              className="fixed z-50 pointer-events-none"
-              style={{
-                left: `${position.x}px`,
-                top: `${position.y + 200}px`,
-                transform: 'translate(-260px, -120px)',
-              }}
-              initial={{
-                scale: 0.4,
-                opacity: 0,
-                rotate: -6,
-              }}
-              animate={{
-                scale: 1,
-                opacity: 1,
-                rotate: -6,
-              }}
-              exit={{
-                scale: 0.4,
-                opacity: 0,
-                rotate: -6,
-              }}
-              transition={{
-                duration: 0.4,
-                ease: "easeInOut",
-              }}
-            >
-              <Image
-                src={works[Number(index)].image}
-                alt={works[Number(index)].title}
-                className="object-cover border-2 border-white"
-                width={240}
-                height={240}
-                loading="eager"
-                quality={80}
-              />
-            </motion.div>
+        {Array.from(hoveredIndices).map((index) => {
+          const { x, y } = mousePositionRef.current;
+          return (
+            <React.Fragment key={index}>
+              <motion.div
+                ref={(el) => {
+                  if (el) overlayRefsLeft.current.set(index, el);
+                  else overlayRefsLeft.current.delete(index);
+                }}
+                className="fixed z-50 pointer-events-none"
+                style={{
+                  left: `${x}px`,
+                  top: `${y + 200}px`,
+                  transform: 'translate(-260px, -120px)',
+                }}
+                initial={{ scale: 0.4, opacity: 0, rotate: -6 }}
+                animate={{ scale: 1, opacity: 1, rotate: -6 }}
+                exit={{ scale: 0.4, opacity: 0, rotate: -6 }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+              >
+                <Image
+                  src={works[index].image}
+                  alt={works[index].title}
+                  className="object-cover border-2 border-white"
+                  width={240}
+                  height={240}
+                  loading="lazy"
+                  quality={80}
+                />
+              </motion.div>
 
-            <motion.div
-              className="fixed z-50 pointer-events-none"
-              style={{
-                left: `${position.x +200}px`,
-                top: `${position.y + 200}px`,
-                transform: 'translate(20px, -120px)',
-              }}
-              initial={{
-                scale: 0.4,
-                opacity: 0,
-                rotate: 6,
-              }}
-              animate={{
-                scale: 1,
-                opacity: 1,
-                rotate: 6,
-              }}
-              exit={{
-                scale: 0.4,
-                opacity: 0,
-                rotate: 6,
-              }}
-              transition={{
-                duration: 0.4,
-                ease: "easeInOut",
-                delay: 0.1,
-              }}
-            >
-              <Image
-                src={works[Number(index)].image2}
-                alt={works[Number(index)].title}
-                className="object-cover border-2 border-white"
-                width={240}
-                height={240}
-                loading="eager"
-                quality={80}
-              />
-            </motion.div>
-          </React.Fragment>
-        ))}
+              <motion.div
+                ref={(el) => {
+                  if (el) overlayRefsRight.current.set(index, el);
+                  else overlayRefsRight.current.delete(index);
+                }}
+                className="fixed z-50 pointer-events-none"
+                style={{
+                  left: `${x + 200}px`,
+                  top: `${y + 200}px`,
+                  transform: 'translate(20px, -120px)',
+                }}
+                initial={{ scale: 0.4, opacity: 0, rotate: 6 }}
+                animate={{ scale: 1, opacity: 1, rotate: 6 }}
+                exit={{ scale: 0.4, opacity: 0, rotate: 6 }}
+                transition={{ duration: 0.4, ease: "easeInOut", delay: 0.1 }}
+              >
+                <Image
+                  src={works[index].image2}
+                  alt={works[index].title}
+                  className="object-cover border-2 border-white"
+                  width={240}
+                  height={240}
+                  loading="lazy"
+                  quality={80}
+                />
+              </motion.div>
+            </React.Fragment>
+          );
+        })}
       </AnimatePresence>
-
-      <style jsx global>{`
-        @keyframes imageAppear {
-          from {
-            opacity: 0;
-            transform: translate(20px, 0) scale(0.8) rotate(-6deg);
-          }
-          to {
-            opacity: 1;
-            transform: translate(0, 0) scale(1) rotate(-6deg);
-          }
-        }
-      `}</style>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12 md:mb-24">

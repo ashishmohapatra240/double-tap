@@ -6,12 +6,18 @@ import { Environment } from "@react-three/drei";
 import { AnimatedLink } from "@/components/AnimatedLink";
 import Button from "@/components/Button/Button";
 import { ModelLogo } from "@/components/Model/ModelLogo";
+import { useIntersectionObserver } from "@/utils/useIntersectionObserver";
 
 export default function Contact() {
   const [modelScale, setModelScale] = useState<[number, number, number]>([
     1, 1, 1,
   ]);
   const [textSize, setTextSize] = useState(3);
+  const [canvasContainerRef, isCanvasVisible] = useIntersectionObserver({
+    threshold: 0,
+    rootMargin: '200px',
+    freezeOnceVisible: true,
+  });
 
   useEffect(() => {
     const handleResize = () => {
@@ -45,17 +51,22 @@ export default function Contact() {
       <div className="max-w-7xl mx-auto relative w-full">
         <div className="flex flex-col items-center text-center mb-16 sm:mb-20">
           <div className="relative flex flex-col items-center justify-center mb-4 w-full max-w-[95vw] sm:max-w-[80vw] md:max-w-[70vw] lg:max-w-[60vw] h-64 sm:h-80 md:h-96 lg:h-[28rem]">
-            <div className="absolute inset-0 flex items-center justify-center z-10 w-full h-full">
-              <Canvas
-                camera={{ position: [0, 0, 8], fov: 35 }}
-                style={{ width: "100%", height: "100%", background: "#000000" }}
-              >
-                <Suspense fallback={null}>
-                  <ModelLogo scale={modelScale} textSize={textSize} />
-                  <directionalLight intensity={2} position={[0, 2, 3]} />
-                  <Environment preset="city" />
-                </Suspense>
-              </Canvas>
+            <div
+              ref={canvasContainerRef}
+              className="absolute inset-0 flex items-center justify-center z-10 w-full h-full"
+            >
+              {isCanvasVisible && (
+                <Canvas
+                  camera={{ position: [0, 0, 8], fov: 35 }}
+                  style={{ width: "100%", height: "100%", background: "#000000" }}
+                >
+                  <Suspense fallback={null}>
+                    <ModelLogo scale={modelScale} textSize={textSize} />
+                    <directionalLight intensity={2} position={[0, 2, 3]} />
+                    <Environment preset="city" />
+                  </Suspense>
+                </Canvas>
+              )}
             </div>
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl mt-40 sm:mt-48 md:mt-56 lg:mt-64 font-power-grotesk text-white text-center relative z-20">
               to us about your next project.

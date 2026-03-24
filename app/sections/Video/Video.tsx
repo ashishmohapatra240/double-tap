@@ -8,14 +8,17 @@ gsap.registerPlugin(ScrollTrigger);
 interface VideoProps {
   isMuted?: boolean;
   src?: string;
+  webmSrc?: string;
   poster?: string;
 }
 
 const Video = ({
   isMuted = true,
   src = "/videos/Hero.mp4",
+  webmSrc,
   poster = "/videos/hero-poster.jpg",
 }: VideoProps) => {
+  const resolvedWebmSrc = webmSrc ?? src.replace(/\.mp4$/i, '.webm');
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
@@ -132,7 +135,6 @@ const Video = ({
       {shouldLoadVideo ? (
         <video
           ref={videoRef}
-          src={src}
           autoPlay
           loop
           muted
@@ -141,7 +143,10 @@ const Video = ({
           crossOrigin="anonymous"
           poster={poster}
           className="w-full h-full object-cover"
-        />
+        >
+          <source src={resolvedWebmSrc} type="video/webm" />
+          <source src={src} type="video/mp4" />
+        </video>
       ) : (
         <div 
           className="w-full h-full bg-black"
