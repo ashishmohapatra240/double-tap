@@ -5,16 +5,16 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import Button from "@/components/Button/Button";
-import { getRandomReason } from "@/data/reasons";
 
 gsap.registerPlugin(ScrollToPlugin);
 
-export default function Careers() {
+export default function Careers({ reasons }: { reasons: string[] }) {
   const [currentReason, setCurrentReason] = useState<string | null>(null);
   const [showReason, setShowReason] = useState(false);
 
   const handleShowReason = () => {
-    const reason = getRandomReason();
+    if (reasons.length === 0) return;
+    const reason = reasons[Math.floor(Math.random() * reasons.length)];
     setCurrentReason(reason);
     setShowReason(true);
   };

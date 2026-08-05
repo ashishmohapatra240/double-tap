@@ -1,12 +1,28 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { works } from "@/data/works";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import type { Work } from "@/sanity/lib/content";
+import { useIntersectionObserver } from "@/utils/useIntersectionObserver";
 
-export default function Works() {
+// Hover overlays are 240x240 at q80. The warm-up pass below must use these exact
+// values so it produces the same optimizer URLs the overlays request — that is
+// what makes the hover a cache hit rather than a fresh round trip.
+const OVERLAY_SIZE = 240;
+const OVERLAY_QUALITY = 80;
+
+export default function Works({ works }: { works: Work[] }) {
   const [hoveredIndices, setHoveredIndices] = useState<Set<number>>(new Set());
+  // Overlays only mount while hovered, so their images could not begin loading
+  // until the cursor was already on the row — the first hover always showed an
+  // empty outline. Warming them once the list is near the viewport means the
+  // bytes are in cache before any hover happens.
+  const [prefetchRef, shouldPrefetch] = useIntersectionObserver({
+    threshold: 0,
+    rootMargin: "600px",
+    freezeOnceVisible: true,
+  });
   const mousePositionRef = useRef({ x: 0, y: 0 });
   const overlayRefsLeft = useRef<Map<number, HTMLDivElement>>(new Map());
   const overlayRefsRight = useRef<Map<number, HTMLDivElement>>(new Map());
@@ -52,7 +68,35 @@ export default function Works() {
   };
 
   return (
-    <section className="py-20 bg-black text-white relative">
+    <section ref={prefetchRef} className="py-20 bg-black text-white relative">
+      {/* Off-screen warm-up for the hover overlays. Kept at opacity 0 rather than
+          display:none so the fetches are guaranteed to fire in every browser. */}
+      {shouldPrefetch && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute h-px w-px overflow-hidden opacity-0"
+        >
+          {works.map((work) => (
+            <React.Fragment key={`prefetch-${work.id}`}>
+              <Image
+                src={work.image}
+                alt=""
+                width={OVERLAY_SIZE}
+                height={OVERLAY_SIZE}
+                quality={OVERLAY_QUALITY}
+              />
+              <Image
+                src={work.image2}
+                alt=""
+                width={OVERLAY_SIZE}
+                height={OVERLAY_SIZE}
+                quality={OVERLAY_QUALITY}
+              />
+            </React.Fragment>
+          ))}
+        </div>
+      )}
+
       <AnimatePresence>
         {Array.from(hoveredIndices).map((index) => {
           const { x, y } = mousePositionRef.current;
@@ -78,10 +122,18 @@ export default function Works() {
                   src={works[index].image}
                   alt={works[index].title}
                   className="object-cover border-2 border-white"
-                  width={240}
-                  height={240}
-                  loading="lazy"
-                  quality={80}
+                  width={OVERLAY_SIZE}
+                  height={OVERLAY_SIZE}
+                  // Eager, not lazy: by the time this mounts the user is already
+                  // hovering, so deferring only adds latency.
+                  loading="eager"
+                  quality={OVERLAY_QUALITY}
+                  {...(works[index].blurDataURL
+                    ? {
+                        placeholder: "blur" as const,
+                        blurDataURL: works[index].blurDataURL,
+                      }
+                    : {})}
                 />
               </motion.div>
 
@@ -105,10 +157,16 @@ export default function Works() {
                   src={works[index].image2}
                   alt={works[index].title}
                   className="object-cover border-2 border-white"
-                  width={240}
-                  height={240}
-                  loading="lazy"
-                  quality={80}
+                  width={OVERLAY_SIZE}
+                  height={OVERLAY_SIZE}
+                  loading="eager"
+                  quality={OVERLAY_QUALITY}
+                  {...(works[index].blurDataURL2
+                    ? {
+                        placeholder: "blur" as const,
+                        blurDataURL: works[index].blurDataURL2,
+                      }
+                    : {})}
                 />
               </motion.div>
             </React.Fragment>

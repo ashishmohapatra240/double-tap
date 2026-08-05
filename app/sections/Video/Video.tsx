@@ -18,7 +18,13 @@ const Video = ({
   webmSrc,
   poster = "/videos/hero-poster.jpg",
 }: VideoProps) => {
-  const resolvedWebmSrc = webmSrc ?? src.replace(/\.mp4$/i, '.webm');
+  // Deliberately NOT derived from `src` any more. It used to default to
+  // Hero.mp4 -> Hero.webm, and that webm was encoded video-only (VP9, no audio
+  // stream at all). Because <source> order decides the winner and every modern
+  // browser except Safari supports VP9, everyone but Safari users got the silent
+  // webm — so unmuting genuinely could not produce sound. The webm was also the
+  // larger file (9.8MB vs 8.2MB), so it cost bandwidth for nothing. It is now
+  // opt-in: only pass `webmSrc` for a webm that actually carries its audio track.
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
@@ -104,12 +110,21 @@ const Video = ({
     const v = videoRef.current;
     if (!v || !shouldLoadVideo) return;
     
+    // Set before play(): autoplay policy is evaluated at the play() call.
     v.muted = isMuted;
-    
+
     const tryPlay = () => {
-      v.play().catch(() => {});
+      v.play().catch(() => {
+        // An unmuted play() is rejected if the browser sees no user activation.
+        // Fall back to muted playback so the video keeps running instead of
+        // freezing on the poster.
+        if (!v.muted) {
+          v.muted = true;
+          v.play().catch(() => {});
+        }
+      });
     };
-    
+
     if (v.readyState >= 3) {
       tryPlay();
     } else {
@@ -137,14 +152,15 @@ const Video = ({
           ref={videoRef}
           autoPlay
           loop
-          muted
+          // Driven by state rather than hardcoded `muted`, so React and the
+          // imperative `v.muted` write below can never disagree about it.
+          muted={isMuted}
           playsInline
           preload="metadata"
-          crossOrigin="anonymous"
           poster={poster}
           className="w-full h-full object-cover"
         >
-          <source src={resolvedWebmSrc} type="video/webm" />
+          {webmSrc && <source src={webmSrc} type="video/webm" />}
           <source src={src} type="video/mp4" />
         </video>
       ) : (

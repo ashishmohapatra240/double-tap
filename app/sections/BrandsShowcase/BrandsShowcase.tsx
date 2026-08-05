@@ -1,9 +1,9 @@
 "use client";
 import Image from "next/image";
 import Marquee from "react-fast-marquee";
-import { brands } from "@/data/brands";
+import type { Brand } from "@/sanity/lib/content";
 
-export default function BrandsShowcase() {
+export default function BrandsShowcase({ brands }: { brands: Brand[] }) {
   return (
     <section className="mt-10 mb-20 md:mt-20 md:mb-40 bg-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

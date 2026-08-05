@@ -1,7 +1,4 @@
 import localFont from "next/font/local";
-import "./globals.css";
-import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
-import LenisProvider from "./components/LenisProvider/LenisProvider";
 
 const spaceMono = localFont({
   src: "../public/font/SpaceMono-Regular.ttf",
@@ -19,11 +16,12 @@ const powerGrotesk = localFont({
   fallback: ['system-ui', '-apple-system', 'sans-serif'],
 });
 
-export const metadata = {
-  title: "Double Tap | Almost There",
-  description: "Double Tap - Creative Direction & Strategic Brand Solutions",
-};
-
+/**
+ * Deliberately bare. Site chrome (globals.css, Lenis smooth scroll, ScrollToTop)
+ * lives in app/(site)/layout.tsx so that /studio renders Sanity Studio without
+ * inheriting it — globals.css in particular applies `content-visibility` to every
+ * <section>, which clips the Studio UI.
+ */
 export default function RootLayout({
   children,
 }: {
@@ -34,12 +32,7 @@ export default function RootLayout({
       lang="en"
       className={`${spaceMono.variable} ${powerGrotesk.variable}`}
     >
-      <body>
-        <LenisProvider>
-          {children}
-          <ScrollToTop />
-        </LenisProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

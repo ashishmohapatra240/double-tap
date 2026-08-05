@@ -2,104 +2,15 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import gsap from "gsap";
-import { useIntersectionObserver } from "@/utils/useIntersectionObserver";
+import type { TeamMember } from "@/sanity/lib/content";
 
-const featuredMembers = [
-  {
-    id: 1,
-    name: "Priyaranjan",
-    image: "/images/team/Priya.jpg",
-    description: `The big-picture dreamer and our idea machine with a knack for turning "what ifs" into "wow." From Saatchi & Saatchi to Xpand, he's mastered the art of storytelling through visuals and vocals. Equal parts strategy and imagination, Priyaranjan is the co-founder whose spark keeps our creativity buzzing.`,
-  },
-  {
-    id: 2,
-    name: "Lata",
-    image: "/images/team/Lata.jpg",
-    description: `The strategist with a law degree in her pocket and brand stories in her heart. With years of building brands from the ground up, she's the co-founder who brings clarity, campaigns, and communication that clicks. If it's about making brands shine, she is already on it.`,
-  },
-];
-
-const teamMembers = [
-  {
-    id: 1,
-    name: "Geetesh",
-    designation: "Creative Lead",
-    image: "/images/team/Geetesh.jpg",
-    description: `The pixel-perfectionist who bring ideas to life. Leads the creative team with calm, class, and colour codes. Responsible? Yes. Boring? Never.`,
-  },
-  {
-    id: 2,
-    name: "Sailesh",
-    designation: "Senior Project Manager",
-    image: "/images/team/Sailesh.jpg",
-    description: `The heartbeat of the room. Laughs loud, works louder. Juggles timelines, tasks, and team moods like a pro. If it's crazy, it's probably his idea (and we love it).`,
-  },
-  {
-    id: 3,
-    name: "Jyoti",
-    designation: "Project Management Lead",
-    image: "/images/team/Jyoti.jpg",
-    description: `Keeps the crew sailing smooth, no matter the storm. Balances people, projects, and pizza orders with ease. Leads with heart, delivers with hustle.`,
-  },
-  {
-    id: 4,
-    name: "Dibya",
-    designation: "Graphic Designer",
-    image: "/images/team/Dibya.jpg",
-    description: `Silent on Slack, loud on the canvas. He won't say much, but his designs say it all. First to stay back, last to miss the fun.`,
-  },
-  {
-    id: 5,
-    name: "Smita",
-    designation: "Graphic Designer",
-    image: "/images/team/Smita.jpg",
-    description: `The only lady in the creative den. Punctuality and talent? She's got both, no contest.`,
-  },
-  {
-    id: 6,
-    name: "Abhinash",
-    designation: "Motion Editor",
-    image: "/images/team/Abhinash.jpg",
-    description: `Quick with the cuts, sharper with the trends. He's the motion pro and forever mom-approved.`,
-  },
-  {
-    id: 7,
-    name: "Suraj",
-    designation: "Graphic Designer",
-    image: "/images/team/Suraj.jpg",
-    description: `Keeps his designs sharp and his humour sharper. Off duty, he's either glued to the next episode or the next over.`,
-  },
-  {
-    id: 8,
-    name: "Priyasmita",
-    designation: "Content Writer",
-    image: "/images/team/Priyasmita.jpg",
-    description: `Runs on coffee, powered by music, and writing that's as smooth as her playlist.`,
-  },
-  {
-    id: 9,
-    name: "Debjani",
-    designation: "Project Manager Associate",
-    image: "/images/team/Debjani.jpg",
-    description: `Fidget queen with a to-do list in hand. She's all heart, all hustle, all precision. Also doubles up as our default model.`,
-  },
-  {
-    id: 10,
-    name: "Subrat",
-    designation: "Video Editor",
-    image: "/images/team/Subrat.jpg",
-    description: `Never in a hurry, never not organised. Edits so clean, they almost breathe.`,
-  },
-  {
-    id: 11,
-    name: "Apurba",
-    designation: "Lead Cinematographer",
-    image: "/images/team/Apurb.jpg",
-    description: `Speaks like a podcast on 2x speed. Sees stories where others see shadows. The seasoned eye that never misses. `,
-  },
-];
-
-export default function Team() {
+export default function Team({
+  featuredMembers,
+  teamMembers,
+}: {
+  featuredMembers: TeamMember[];
+  teamMembers: TeamMember[];
+}) {
   const [activeTeamMember, setActiveTeamMember] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const memberRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -107,11 +18,12 @@ export default function Team() {
   const rafIdRef = useRef<number | null>(null);
   const widthAnimsRef = useRef<gsap.core.Tween[]>([]);
   
-  const [sectionRef, isSectionVisible] = useIntersectionObserver({
-    threshold: 0,
-    rootMargin: '300px',
-    freezeOnceVisible: true,
-  });
+  // The images used to be gated behind an IntersectionObserver *and* marked
+  // loading="lazy". The JS gate was strictly worse than the native one: it hid the
+  // <img> from the preload scanner entirely and only mounted it 300px out, after
+  // hydration. Native lazy loading starts fetching much further ahead (Chrome
+  // scales the threshold by connection speed, ~1250px on fast links) and needs no
+  // JS at all, so the gate is gone and `loading="lazy"` now does the work alone.
 
   useEffect(() => {
     let resizeTimeout: NodeJS.Timeout;
@@ -243,7 +155,7 @@ export default function Team() {
   }, []);
 
   return (
-    <section ref={sectionRef}>
+    <section>
       <div className="bg-black">
         <div className="flex flex-col items-center justify-center max-w-6xl mx-auto px-6 md:px-8 py-16 md:pt-20">
           <div className="mb-4">
@@ -267,18 +179,18 @@ export default function Team() {
               style={{ contain: 'layout style paint' }}
             >
               <div className="relative h-[360px] md:h-[520px] w-full md:w-1/2 transform-gpu">
-                {isSectionVisible && (
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover"
-                    loading="lazy"
-                    priority={false}
-                    quality={85}
-                  />
-                )}
+                <Image
+                  src={member.image}
+                  alt={member.name}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover"
+                  loading="lazy"
+                  quality={85}
+                  {...(member.blurDataURL
+                    ? { placeholder: "blur" as const, blurDataURL: member.blurDataURL }
+                    : {})}
+                />
               </div>
 
               <div className="w-full md:w-1/2 md:h-[520px] md:flex md:flex-col md:justify-end">
@@ -303,18 +215,18 @@ export default function Team() {
                   onClick={() => setActiveTeamMember(index)}
                   style={{ contain: 'layout style paint' }}
                 >
-                  {isSectionVisible && (
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      sizes="33vw"
-                      className="object-cover"
-                      loading="lazy"
-                      priority={false}
-                      quality={75}
-                    />
-                  )}
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    sizes="33vw"
+                    className="object-cover"
+                    loading="lazy"
+                    quality={75}
+                    {...(member.blurDataURL
+                      ? { placeholder: "blur" as const, blurDataURL: member.blurDataURL }
+                      : {})}
+                  />
                   {activeTeamMember === index && (
                     <div className="absolute inset-0 border-2 border-white"></div>
                   )}
@@ -335,18 +247,18 @@ export default function Team() {
                   onMouseLeave={() => handleMemberLeave(index)}
                   style={{ contain: 'layout style paint' }}
                 >
-                  {isSectionVisible && (
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      sizes="10vw"
-                      className="object-cover"
-                      loading="lazy"
-                      priority={false}
-                      quality={80}
-                    />
-                  )}
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    sizes="10vw"
+                    className="object-cover"
+                    loading="lazy"
+                    quality={80}
+                    {...(member.blurDataURL
+                      ? { placeholder: "blur" as const, blurDataURL: member.blurDataURL }
+                      : {})}
+                  />
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
                     <p className="text-[#D9D9D9] text-xs md:text-xs font-power-grotesk">
                       {member.name}

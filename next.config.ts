@@ -4,64 +4,29 @@ const nextConfig: NextConfig = {
   // Image optimization
   images: {
     formats: ['image/avif', 'image/webp'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+        pathname: '/images/**',
+      },
+    ],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 60,
+    // Sanity asset URLs are content-addressed (the asset id is a hash), so a
+    // given URL's bytes never change and this can safely be a year. At the old
+    // 60s every optimized variant expired almost immediately, forcing the
+    // optimizer to re-fetch and re-transcode the origin image over and over —
+    // so images were effectively always being generated cold.
+    minimumCacheTTL: 31536000,
   },
 
-  // Webpack optimizations
-  webpack: (config, { isServer }) => {
-    // Optimize bundle splitting
-    config.optimization = {
-      ...config.optimization,
-      moduleIds: 'deterministic',
-      runtimeChunk: 'single',
-      splitChunks: {
-        chunks: 'all',
-        cacheGroups: {
-          default: false,
-          vendors: false,
-          // Vendor chunk for React and related
-          react: {
-            name: 'react-vendor',
-            test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
-            priority: 40,
-            enforce: true,
-          },
-          // Three.js and 3D libraries
-          three: {
-            name: 'three-vendor',
-            test: /[\\/]node_modules[\\/](@react-three|three)[\\/]/,
-            priority: 35,
-            enforce: true,
-          },
-          // Animation libraries
-          animations: {
-            name: 'animation-vendor',
-            test: /[\\/]node_modules[\\/](gsap|framer-motion|lenis)[\\/]/,
-            priority: 30,
-            enforce: true,
-          },
-          // Common vendor chunk
-          vendor: {
-            name: 'vendor',
-            test: /[\\/]node_modules[\\/]/,
-            priority: 20,
-          },
-          // Common shared code
-          common: {
-            name: 'common',
-            minChunks: 2,
-            priority: 10,
-            reuseExistingChunk: true,
-            enforce: true,
-          },
-        },
-      },
-    };
-
-    return config;
-  },
+  // NOTE: a custom `webpack` splitChunks override used to live here. It never ran —
+  // this file was missing its `export default`, so Next silently used defaults for
+  // the whole config. Once the export was restored the override took effect and
+  // hoisted every node_modules package (including the 1.65MB embedded Studio) into
+  // one shared chunk, taking First Load JS from 106kB to 2.26MB on every route.
+  // Next's default chunking is what the site has actually been shipping. Removed.
 
   // Compiler optimizations
   compiler: {
@@ -111,4 +76,6 @@ const nextConfig: NextConfig = {
     ];
   },
 };
+
+export default nextConfig;
 

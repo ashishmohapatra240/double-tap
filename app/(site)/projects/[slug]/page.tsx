@@ -1,9 +1,9 @@
 import React from "react";
-import { works } from "@/data/works";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import ServiceChips from "@/components/ServiceChips/ServiceChips";
+import { getWork, getWorkSlugs } from "@/sanity/lib/content";
 
 interface ProjectPageProps {
   params: Promise<{
@@ -11,9 +11,26 @@ interface ProjectPageProps {
   }>;
 }
 
+export async function generateStaticParams() {
+  const slugs = await getWorkSlugs();
+  return slugs.map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({ params }: ProjectPageProps) {
+  const { slug } = await params;
+  const project = await getWork(slug);
+
+  if (!project) return {};
+
+  return {
+    title: `${project.title} | Double Tap`,
+    description: project.description,
+  };
+}
+
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
-  const project = works.find((work) => work.slug === slug);
+  const project = await getWork(slug);
 
   if (!project) {
     notFound();

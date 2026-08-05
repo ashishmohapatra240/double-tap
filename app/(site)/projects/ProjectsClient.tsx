@@ -1,16 +1,16 @@
 "use client";
 import React, { useRef, useEffect } from "react";
-import { works } from "@/data/works";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Button from "@/components/Button/Button";
 import ServiceChips from "@/components/ServiceChips/ServiceChips";
+import type { Work } from "@/sanity/lib/content";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function ProjectsPage() {
+export default function ProjectsClient({ works }: { works: Work[] }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const heroRef = useRef<HTMLDivElement>(null);
     const projectsRef = useRef<HTMLDivElement>(null);

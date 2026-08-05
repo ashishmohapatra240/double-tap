@@ -2,7 +2,7 @@
 
 import { Suspense, useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Environment } from "@react-three/drei";
+import { Environment, Lightformer } from "@react-three/drei";
 import { AnimatedLink } from "@/components/AnimatedLink";
 import Button from "@/components/Button/Button";
 import { ModelLogo } from "@/components/Model/ModelLogo";
@@ -15,7 +15,7 @@ export default function Contact() {
   const [textSize, setTextSize] = useState(3);
   const [canvasContainerRef, isCanvasVisible] = useIntersectionObserver({
     threshold: 0,
-    rootMargin: '200px',
+    rootMargin: '800px',
     freezeOnceVisible: true,
   });
 
@@ -60,10 +60,39 @@ export default function Contact() {
                   camera={{ position: [0, 0, 8], fov: 35 }}
                   style={{ width: "100%", height: "100%", background: "#000000" }}
                 >
+                  {/* Lights + procedural env sit outside the Suspense boundary so
+                      they can never gate the model. See About.tsx for why the
+                      `preset="city"` HDR had to go. */}
+                  <directionalLight intensity={2} position={[0, 2, 3]} />
+                  <Environment resolution={256} frames={1}>
+                    <Lightformer
+                      intensity={2}
+                      rotation-x={Math.PI / 2}
+                      position={[0, 5, -2]}
+                      scale={[10, 10, 1]}
+                    />
+                    <Lightformer
+                      intensity={4}
+                      rotation-y={Math.PI / 2}
+                      position={[-5, 1, 1]}
+                      scale={[1, 6, 1]}
+                    />
+                    <Lightformer
+                      intensity={3}
+                      rotation-y={-Math.PI / 2}
+                      position={[5, -1, 1]}
+                      scale={[1, 6, 1]}
+                    />
+                    <Lightformer
+                      intensity={0.6}
+                      rotation-x={-Math.PI / 2}
+                      position={[0, -5, 0]}
+                      scale={[10, 10, 1]}
+                    />
+                  </Environment>
+
                   <Suspense fallback={null}>
                     <ModelLogo scale={modelScale} textSize={textSize} />
-                    <directionalLight intensity={2} position={[0, 2, 3]} />
-                    <Environment preset="city" />
                   </Suspense>
                 </Canvas>
               )}

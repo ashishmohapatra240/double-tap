@@ -1,8 +1,8 @@
 'use client';
 
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Environment } from "@react-three/drei";
+import { OrbitControls, Environment, Lightformer } from "@react-three/drei";
 import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { Model } from "@/components/Model";
@@ -12,11 +12,22 @@ import { useIntersectionObserver } from "@/utils/useIntersectionObserver";
 gsap.registerPlugin(ScrollToPlugin);
 
 export default function About() {
+  // Wide margin so the WebGL context, shader compile and transmission FBO are all
+  // paid for well before the canvas is actually looked at.
   const [canvasRef, isCanvasVisible] = useIntersectionObserver({
     threshold: 0,
-    rootMargin: '200px',
+    rootMargin: '800px',
     freezeOnceVisible: false,
   });
+
+  // Latched separately from `isCanvasVisible`: scrolling away used to unmount the
+  // whole <Canvas>, so coming back re-paid context creation and shader compilation
+  // every time — which read as the model "arriving late" on each return. Now it
+  // mounts once and only the render loop pauses when off-screen.
+  const [hasEnteredView, setHasEnteredView] = useState(false);
+  useEffect(() => {
+    if (isCanvasVisible) setHasEnteredView(true);
+  }, [isCanvasVisible]);
 
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
@@ -44,7 +55,7 @@ export default function About() {
             <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
               <span className="font-power-grotesk text-white text-4xl md:text-5xl select-none">Strike Twice</span>
             </div>
-            {isCanvasVisible && (
+            {hasEnteredView && (
               <div className="absolute inset-0 z-10">
                 <Canvas
                   camera={{ position: [0, 0, 5], fov: 45 }}
@@ -53,18 +64,73 @@ export default function About() {
                   frameloop="demand"
                   dpr={[1, 2]}
                 >
+                  {/* Everything below resolves synchronously — no network, no Suspense.
+                      It is deliberately kept OUTSIDE the model's boundary so nothing
+                      here can hold the mesh back.
+
+                      This used to be <Environment preset="city" />, which makes drei
+                      pull a ~1.5MB potsdamer_platz_1k.hdr from raw.githack.com. That
+                      fetch shared a Suspense boundary with <Model />, so the astrix
+                      could not paint until a third-party CDN served the HDR — the main
+                      reason it appeared seconds late. Lightformers give the glass its
+                      reflections and specular streaks with zero bytes over the wire,
+                      and `frames={1}` bakes the cubemap once in a layout effect (so it
+                      works under frameloop="demand" without needing a rendered frame). */}
+                  <ambientLight intensity={0.5} />
+                  <directionalLight intensity={2} position={[0, 2, 3]} />
+                  <directionalLight intensity={1} position={[-2, -2, -3]} />
+                  <pointLight position={[10, 10, 10]} intensity={0.5} />
+
+                  <Environment resolution={256} frames={1}>
+                    {/* Broad soft key from above */}
+                    <Lightformer
+                      intensity={2}
+                      rotation-x={Math.PI / 2}
+                      position={[0, 5, -2]}
+                      scale={[10, 10, 1]}
+                    />
+                    {/* Tall narrow sources read as the bright vertical streaks
+                        across the bevels */}
+                    <Lightformer
+                      intensity={4}
+                      rotation-y={Math.PI / 2}
+                      position={[-5, 1, 1]}
+                      scale={[1, 6, 1]}
+                    />
+                    <Lightformer
+                      intensity={3}
+                      rotation-y={-Math.PI / 2}
+                      position={[5, -1, 1]}
+                      scale={[1, 6, 1]}
+                    />
+                    {/* Warm rim accent. Kept low: the city HDR it replaces was
+                        largely neutral, and the material's own #F15A24 already
+                        supplies the orange, so a hot reflection here just
+                        oversaturates the glass. */}
+                    <Lightformer
+                      form="ring"
+                      color="#F15A24"
+                      intensity={1.5}
+                      position={[2, 2, 3]}
+                      scale={3}
+                    />
+                    {/* Dim bounce from below */}
+                    <Lightformer
+                      intensity={0.6}
+                      rotation-x={-Math.PI / 2}
+                      position={[0, -5, 0]}
+                      scale={[10, 10, 1]}
+                    />
+                  </Environment>
+
+                  <OrbitControls
+                    enableZoom={false}
+                    enablePan={false}
+                    enableDamping={false}
+                  />
+
                   <Suspense fallback={null}>
                     <Model isVisible={isCanvasVisible} />
-                    <ambientLight intensity={0.5} />
-                    <directionalLight intensity={2} position={[0, 2, 3]} />
-                    <directionalLight intensity={1} position={[-2, -2, -3]} />
-                    <pointLight position={[10, 10, 10]} intensity={0.5} />
-                    <Environment preset="city" />
-                    <OrbitControls 
-                      enableZoom={false} 
-                      enablePan={false}
-                      enableDamping={false}
-                    />
                   </Suspense>
                 </Canvas>
               </div>
